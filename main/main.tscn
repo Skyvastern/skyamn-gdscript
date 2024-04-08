@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://0aheb7v37rpf"]
+
+[node name="Main" type="Node"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 105.0
+offset_top = 59.0
+offset_right = -105.0
+offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Code Editor" type="VBoxContainer" parent="UI/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Code" type="TextEdit" parent="UI/Container/Code Editor"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "// Hello, world! :D"
+placeholder_text = "Write your code here"
+wrap_mode = 1
+
+[node name="Run Button" type="Button" parent="UI/Container/Code Editor"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 36
+text = "Run"
+
+[node name="Output Panel" type="ScrollContainer" parent="UI/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="UI/Container/Output Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Output" type="Label" parent="UI/Container/Output Panel/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = -12.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "---------- Output ----------"
+autowrap_mode = 2
