@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3dbkuo5lym45"]
+
+[ext_resource type="Script" path="res://main/interpreter/interpreter.gd" id="1_ok7gr"]
+[ext_resource type="PackedScene" uid="uid://c6d7njfiey11i" path="res://main/interpreter/scanner/scanner.tscn" id="2_rfwvq"]
+
+[node name="Interpreter" type="Node"]
+script = ExtResource("1_ok7gr")
+scanner_scene = ExtResource("2_rfwvq")
