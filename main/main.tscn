@@ -1,16 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://0aheb7v37rpf"]
+[gd_scene load_steps=2 format=3 uid="uid://0aheb7v37rpf"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_juhc7"]
-[ext_resource type="PackedScene" uid="uid://c3dbkuo5lym45" path="res://main/interpreter/interpreter.tscn" id="2_d4gmh"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("interpreter", "code", "run_btn", "output")]
+[node name="Main" type="Node" node_paths=PackedStringArray("code", "run_btn", "output")]
 script = ExtResource("1_juhc7")
-interpreter = NodePath("Interpreter")
 code = NodePath("UI/Container/Code Editor/Code")
 run_btn = NodePath("UI/Container/Code Editor/Run Button")
 output = NodePath("UI/Container/Output Panel/Panel/Output")
-
-[node name="Interpreter" parent="." instance=ExtResource("2_d4gmh")]
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

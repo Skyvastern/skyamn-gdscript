@@ -1,9 +1,6 @@
 extends Node
 class_name Main
 
-@export_group("Main")
-@export var interpreter: Interpreter
-
 @export_group("UI")
 @export var code: TextEdit
 @export var run_btn: Button
@@ -16,4 +13,6 @@ func _ready() -> void:
 
 func _on_run_btn_pressed() -> void:
 	var source: String = code.text
+	
+	var interpreter: Interpreter = Interpreter.new()
 	interpreter.run_source(source)

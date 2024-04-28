@@ -1,7 +1,5 @@
-extends Node
+extends RefCounted
 class_name Scanner
-
-@export var token_scene: PackedScene
 
 var source: String
 var tokens: Array[Token]
@@ -11,7 +9,7 @@ var current: int = 0
 var line: int = 1
 
 
-func setup(_source: String) -> void:
+func _init(_source: String) -> void:
 	source = _source
 	tokens = []
 
@@ -21,8 +19,7 @@ func scan_tokens() -> Array[Token]:
 		start = current
 		scan_a_token()
 	
-	var token: Token = Interpreter.add_scene_in_tree(token_scene, self)
-	token.setup(Token.TokenType.EOF, "", "", line)
+	var token: Token = Token.new(Token.TokenType.EOF, "", "", line)
 	tokens.append(token)
 	
 	return tokens
@@ -109,9 +106,9 @@ func add_token(type: Token.TokenType) -> void:
 func add_token_literal(type: Token.TokenType, literal: String) -> void:
 	var text: String = Interpreter.substring(source, start, current)
 	
-	var token: Token = Interpreter.add_scene_in_tree(token_scene, self)
-	token.setup(type, text, literal, line)
-	tokens.append(token)
+	tokens.append(
+		Token.new(type, text, literal, line)
+	)
 
 
 func match_char(expected: String) -> bool:

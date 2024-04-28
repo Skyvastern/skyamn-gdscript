@@ -1,9 +1,7 @@
-extends Node
+extends RefCounted
 class_name Interpreter
 
 static var had_error: bool = false
-
-@export var scanner_scene: PackedScene
 
 
 func start(source: String) -> bool:
@@ -27,10 +25,12 @@ func run_prompt() -> void:
 
 
 func _run(source: String) -> void:
-	var scanner: Scanner = Interpreter.add_scene_in_tree(scanner_scene, self)
-	scanner.setup(source)
+	var scanner: Scanner = Scanner.new(source)
+	var tokens: Array[Token] = scanner.scan_tokens()
 	
-	var _tokens: Array[Token] = scanner.scan_tokens()
+	for t in tokens:
+		print(t)
+		print("\n")
 
 
 static func error(line: int, message: String) -> void:
@@ -40,12 +40,6 @@ static func error(line: int, message: String) -> void:
 static func report(line: int, where: String, message: String) -> void:
 	push_error("[line " + str(line) + "] Error" + where + ": " + message)
 	had_error = true
-
-
-static func add_scene_in_tree(scene: PackedScene, parent: Node) -> Node:
-	var node: Node = scene.instantiate()
-	parent.add_child(node)
-	return node
 
 
 static func substring(value: String, start_index: int, end_index: int) -> String:

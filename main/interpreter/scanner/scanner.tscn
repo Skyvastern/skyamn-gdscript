@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6d7njfiey11i"]
-
-[ext_resource type="Script" path="res://main/interpreter/scanner/scanner.gd" id="1_0bw7t"]
-[ext_resource type="PackedScene" uid="uid://x87348rir0d3" path="res://main/interpreter/token/token.tscn" id="2_h4r8b"]
-
-[node name="Scanner" type="Node"]
-script = ExtResource("1_0bw7t")
-token_scene = ExtResource("2_h4r8b")
