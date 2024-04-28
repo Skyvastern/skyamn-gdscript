@@ -1,25 +1,17 @@
-extends Node
+extends RefCounted
 class_name Token
 
-static var count: int = 0
-
-@export var type: TokenType
-@export var lexeme: String
-@export var literal: String
-@export var line: int
+var type: TokenType
+var lexeme: String
+var literal: String
+var line: int
 
 
-func setup(_type: TokenType, _lexeme: String, _literal: String, _line: int) -> void:
+func _init(_type: TokenType, _lexeme: String, _literal: String, _line: int) -> void:
 	type = _type
 	lexeme = _lexeme
 	literal = _literal
 	line = _line
-	
-	# For visual feedback in Godot Editor
-	name = str(count) + " - " + TokenType.keys()[type]
-	count += 1
-	
-	print("\n" + str(count) + "\n" + _to_string())
 
 
 func _to_string() -> String:

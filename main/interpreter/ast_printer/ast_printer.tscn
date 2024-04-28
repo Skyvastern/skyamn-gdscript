@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drujty24pwdhh"]
+
+[ext_resource type="Script" path="res://main/interpreter/ast_printer/ast_printer.gd" id="1_hp847"]
+
+[node name="AST Printer" type="Node"]
+script = ExtResource("1_hp847")
