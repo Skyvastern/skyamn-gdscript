@@ -1,10 +1,10 @@
 extends Expr
 class_name Literal
 
-var value: String
+var value: Variant
 
 
-func _init(_value: String) -> void:
+func _init(_value: Variant) -> void:
 	value = _value
 
 func accept(visitor: ExprVisitor):

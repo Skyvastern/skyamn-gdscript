@@ -24,10 +24,10 @@ func visit_grouping_expr(grouping: Grouping) -> String:
 
 
 func visit_literal_expr(literal: Literal) -> String:
-	if literal.value == "":
+	if literal.value == null:
 		return "null"
 	
-	return literal.value
+	return str(literal.value)
 
 
 func visit_unary_expr(unary: Unary) -> String:

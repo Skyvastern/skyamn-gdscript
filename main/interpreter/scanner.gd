@@ -19,7 +19,7 @@ func scan_tokens() -> Array[Token]:
 		start = current
 		scan_a_token()
 	
-	var token: Token = Token.new(Token.TokenType.EOF, "", "", line)
+	var token: Token = Token.new(Token.TokenType.EOF, "", null, line)
 	tokens.append(token)
 	
 	return tokens
@@ -100,10 +100,10 @@ func advance() -> String:
 
 
 func add_token(type: Token.TokenType) -> void:
-	add_token_literal(type, "")
+	add_token_literal(type, null)
 
 
-func add_token_literal(type: Token.TokenType, literal: String) -> void:
+func add_token_literal(type: Token.TokenType, literal: Variant) -> void:
 	var text: String = Interpreter.substring(source, start, current)
 	
 	tokens.append(
@@ -170,7 +170,7 @@ func number() -> void:
 	
 	add_token_literal(
 		Token.TokenType.NUMBER,
-		Interpreter.substring(source, start, current)
+		float(Interpreter.substring(source, start, current))
 	)
 
 

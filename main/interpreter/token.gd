@@ -3,11 +3,11 @@ class_name Token
 
 var type: TokenType
 var lexeme: String
-var literal: String
+var literal: Variant
 var line: int
 
 
-func _init(_type: TokenType, _lexeme: String, _literal: String, _line: int) -> void:
+func _init(_type: TokenType, _lexeme: String, _literal: Variant, _line: int) -> void:
 	type = _type
 	lexeme = _lexeme
 	literal = _literal
@@ -15,7 +15,7 @@ func _init(_type: TokenType, _lexeme: String, _literal: String, _line: int) -> v
 
 
 func _to_string() -> String:
-	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + lexeme + "\nLiteral: " + literal
+	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + lexeme + "\nLiteral: " + str(literal)
 
 
 enum TokenType {

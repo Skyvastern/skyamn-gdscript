@@ -18,7 +18,7 @@ func generate() -> void:
 		[
 			"binary = left: Expr, operator: Token, right: Expr",
 			"grouping = expression: Expr",
-			"literal = value: String",
+			"literal = value: Variant",
 			"unary = operator: Token, right: Expr"
 		]
 	)
