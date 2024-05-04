@@ -28,13 +28,26 @@ func _run(source: String) -> void:
 	var scanner: Scanner = Scanner.new(source)
 	var tokens: Array[Token] = scanner.scan_tokens()
 	
-	for t in tokens:
-		print(t)
-		print("\n")
+	var parser: Parser = Parser.new(tokens)
+	var expression: Expr = parser.parse()
+	
+	if had_error:
+		return
+	
+	var ast_printer: ASTPrinter = ASTPrinter.new()
+	var output: String = ast_printer.print_pretty(expression)
+	print(output)
 
 
 static func error(line: int, message: String) -> void:
 	report(line, "", message)
+
+
+static func error_token(token: Token, message: String) -> void:
+	if token.type == Token.TokenType.EOF:
+		report(token.line, " at end", message)
+	else:
+		report(token.line, " at '" + token.lexeme + "'", message)
 
 
 static func report(line: int, where: String, message: String) -> void:
