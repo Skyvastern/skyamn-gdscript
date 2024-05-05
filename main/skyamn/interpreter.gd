@@ -143,7 +143,7 @@ func stringify(variant: Variant) -> String:
 	if variant is float:
 		var text: String = str(variant)
 		if text.ends_with(".0"):
-			text = Skyashva.substring(text, 0, text.length() - 2)
+			text = Skyamn.substring(text, 0, text.length() - 2)
 		
 		return text
 	

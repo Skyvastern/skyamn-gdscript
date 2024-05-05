@@ -14,5 +14,5 @@ func _ready() -> void:
 func _on_run_btn_pressed() -> void:
 	var source: String = code.text
 	
-	var skyashva: Skyashva = Skyashva.new()
-	skyashva.run_source(source)
+	var skyamn: Skyamn = Skyamn.new()
+	skyamn.run_source(source)

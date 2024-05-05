@@ -1,5 +1,5 @@
 extends RefCounted
-class_name Skyashva
+class_name Skyamn
 
 static var had_error: bool = false
 static var had_runtime_error: bool = false

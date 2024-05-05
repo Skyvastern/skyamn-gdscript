@@ -108,7 +108,7 @@ func primary() -> Expr:
 		consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after expression.")
 		return Grouping.new(expr)
 	
-	Skyashva.error_token(peek(), "Expected expression.")
+	Skyamn.error_token(peek(), "Expected expression.")
 	return null
 
 
@@ -116,7 +116,7 @@ func consume(type: Token.TokenType, message: String) -> Token:
 	if check(type):
 		return advance()
 	
-	Skyashva.error_token(peek(), message)
+	Skyamn.error_token(peek(), message)
 	return null
 
 
