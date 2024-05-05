@@ -4,6 +4,10 @@ class_name Interpreter
 static var had_error: bool = false
 
 
+func _init() -> void:
+	had_error = false
+
+
 func start(source: String) -> bool:
 	if source == "":
 		print("Source code is empty.")
