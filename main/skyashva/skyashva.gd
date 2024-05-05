@@ -2,10 +2,12 @@ extends RefCounted
 class_name Skyashva
 
 static var had_error: bool = false
+static var had_runtime_error: bool = false
 
 
 func _init() -> void:
 	had_error = false
+	had_runtime_error = false
 
 
 func start(source: String) -> bool:
@@ -38,9 +40,12 @@ func _run(source: String) -> void:
 	if had_error:
 		return
 	
-	var ast_printer: ASTPrinter = ASTPrinter.new()
-	var output: String = ast_printer.print_pretty(expression)
-	print(output)
+	var interpreter: Interpreter = Interpreter.new(
+		_on_success,
+		_on_runtime_error
+	)
+	
+	interpreter.interpret(expression)
 
 
 static func error(line: int, message: String) -> void:
@@ -66,3 +71,12 @@ static func substring(value: String, start_index: int, end_index: int) -> String
 		trimmed_value += value[i]
 	
 	return trimmed_value
+
+
+func _on_success(output: String) -> void:
+	print(output)
+
+
+func _on_runtime_error(token: Token, message: String) -> void:
+	push_error("Runtime Error: %s\nAt line [%s]" % [message, token.line])
+	had_runtime_error = true
