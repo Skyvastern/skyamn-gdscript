@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dghhheiiysrvy"]
 
-[ext_resource type="Script" path="res://main/interpreter/generate_ast_scripts/generate_ast_scripts.gd" id="1_q50oe"]
+[ext_resource type="Script" path="res://main/skyashva/generate_ast_scripts/generate_ast_scripts.gd" id="1_q50oe"]
 
 [node name="Generate AST Scripts" type="Node"]
 script = ExtResource("1_q50oe")

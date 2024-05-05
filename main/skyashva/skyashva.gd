@@ -1,5 +1,5 @@
 extends RefCounted
-class_name Interpreter
+class_name Skyashva
 
 static var had_error: bool = false
 

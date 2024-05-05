@@ -14,5 +14,5 @@ func _ready() -> void:
 func _on_run_btn_pressed() -> void:
 	var source: String = code.text
 	
-	var interpreter: Interpreter = Interpreter.new()
-	interpreter.run_source(source)
+	var skyashva: Skyashva = Skyashva.new()
+	skyashva.run_source(source)

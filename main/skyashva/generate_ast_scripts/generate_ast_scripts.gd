@@ -2,7 +2,7 @@
 extends Node
 class_name GenerateASTScripts
 
-const BASE_PATH: String = "res://main/interpreter/generate_ast_scripts/scripts/"
+const BASE_PATH: String = "res://main/skyashva/generate_ast_scripts/scripts/"
 
 
 @export var run: bool = false:

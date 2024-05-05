@@ -86,7 +86,7 @@ func scan_a_token() -> void:
 			elif is_alpha(c):
 				identifier()
 			else:
-				Interpreter.error(line, "Unexpected character: " + c)
+				Skyashva.error(line, "Unexpected character: " + c)
 
 
 func is_at_end() -> bool:
@@ -104,7 +104,7 @@ func add_token(type: Token.TokenType) -> void:
 
 
 func add_token_literal(type: Token.TokenType, literal: Variant) -> void:
-	var text: String = Interpreter.substring(source, start, current)
+	var text: String = Skyashva.substring(source, start, current)
 	
 	tokens.append(
 		Token.new(type, text, literal, line)
@@ -137,12 +137,12 @@ func string() -> void:
 		advance()
 	
 	if is_at_end():
-		Interpreter.error(line, "Unterminated string.")
+		Skyashva.error(line, "Unterminated string.")
 		return
 	
 	advance()
 	
-	var value: String = Interpreter.substring(source, start + 1, current - 1)
+	var value: String = Skyashva.substring(source, start + 1, current - 1)
 	add_token_literal(Token.TokenType.STRING, value)
 
 
@@ -170,7 +170,7 @@ func number() -> void:
 	
 	add_token_literal(
 		Token.TokenType.NUMBER,
-		float(Interpreter.substring(source, start, current))
+		float(Skyashva.substring(source, start, current))
 	)
 
 
@@ -186,7 +186,7 @@ func identifier() -> void:
 	while is_alpha_numeric(peek()):
 		advance()
 	
-	var text: String = Interpreter.substring(source, start, current)
+	var text: String = Skyashva.substring(source, start, current)
 	var type = Token.keywords.get(text)
 	if type == null:
 		type = Token.TokenType.IDENTIFIER
