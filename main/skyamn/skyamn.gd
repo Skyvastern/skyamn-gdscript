@@ -35,7 +35,7 @@ func _run(source: String) -> void:
 	var tokens: Array[Token] = scanner.scan_tokens()
 	
 	var parser: Parser = Parser.new(tokens)
-	var expression: Expr = parser.parse()
+	var statements: Array[Stmt] = parser.parse()
 	
 	if had_error:
 		return
@@ -45,7 +45,7 @@ func _run(source: String) -> void:
 		_on_runtime_error
 	)
 	
-	interpreter.interpret(expression)
+	interpreter.interpret(statements)
 
 
 static func error(line: int, message: String) -> void:

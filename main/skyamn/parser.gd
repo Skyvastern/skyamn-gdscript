@@ -9,8 +9,33 @@ func _init(_tokens: Array[Token]) -> void:
 	tokens = _tokens
 
 
-func parse() -> Expr:
-	return expression()
+func parse() -> Array[Stmt]:
+	var statements: Array[Stmt] = []
+	
+	while not is_at_end():
+		statements.append(statement())
+	
+	return statements
+
+
+
+func statement() -> Stmt:
+	if match_token_type([Token.TokenType.PRINT]):
+		return print_statement()
+	
+	return expression_statement()
+
+
+func print_statement() -> Stmt:
+	var value: Expr = expression()
+	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	return SkyPrint.new(value)
+
+
+func expression_statement() -> Stmt:
+	var expr: Expr = expression()
+	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	return SkyExpression.new(expr)
 
 
 func expression() -> Expr:

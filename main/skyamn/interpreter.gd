@@ -1,4 +1,4 @@
-extends ExprVisitor
+extends BaseVisitor
 class_name Interpreter
 
 # emit(output: String)
@@ -13,10 +13,25 @@ func _init(on_success: Callable, on_runtime_error: Callable) -> void:
 	runtime_error.connect(on_runtime_error)
 
 
-func interpret(expr: Expr) -> void:
-	var value: Variant = evaluate(expr)
+func interpret(statements: Array[Stmt]) -> void:
+	for stmt in statements:
+		execute(stmt)
+
+
+func execute(stmt: Stmt) -> void:
+	stmt.accept(self)
+
+
+
+func visit_sky_expression_stmt(stmt: SkyExpression) -> void:
+	evaluate(stmt.expr)
+
+
+func visit_sky_print_stmt(stmt: SkyPrint) -> void:
+	var value: Variant = evaluate(stmt.expr)
 	var output: String = stringify(value)
 	emit_success(output)
+
 
 
 func visit_literal_expr(literal: Literal) -> Variant:
@@ -147,7 +162,7 @@ func stringify(variant: Variant) -> String:
 		
 		return text
 	
-	return String(variant)
+	return str(variant)
 
 
 func emit_runtime_error(token: Token, message: String) -> void:
