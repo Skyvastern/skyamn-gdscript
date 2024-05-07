@@ -1,5 +1,5 @@
 extends RefCounted
-class_name Expr
+class_name Stmt
 
 func accept(_visitor: BaseVisitor):
 	return

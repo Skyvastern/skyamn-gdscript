@@ -1,4 +1,4 @@
-extends RefCounted
+extends BaseVisitor
 class_name ExprVisitor
 
 

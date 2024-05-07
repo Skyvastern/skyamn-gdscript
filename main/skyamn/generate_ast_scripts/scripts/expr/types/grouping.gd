@@ -7,5 +7,5 @@ var expression: Expr
 func _init(_expression: Expr) -> void:
 	expression = _expression
 
-func accept(visitor: ExprVisitor):
+func accept(visitor: BaseVisitor):
 	return visitor.visit_grouping_expr(self)

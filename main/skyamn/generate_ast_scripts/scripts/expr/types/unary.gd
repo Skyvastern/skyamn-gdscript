@@ -9,5 +9,5 @@ func _init(_operator: Token, _right: Expr) -> void:
 	operator = _operator
 	right = _right
 
-func accept(visitor: ExprVisitor):
+func accept(visitor: BaseVisitor):
 	return visitor.visit_unary_expr(self)

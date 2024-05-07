@@ -22,6 +22,14 @@ func generate() -> void:
 			"unary = operator: Token, right: Expr"
 		]
 	)
+	
+	define_ast(
+		"stmt",
+		[
+			"sky_expression = expr: Expr",
+			"sky_print = expr: Expr"
+		]
+	)
 
 
 func _create_dir_and_overwrite(dir_path: String) -> void:
@@ -47,10 +55,10 @@ func define_ast(main_script_name: String, types: Array[String]) -> void:
 	
 	content += "extends RefCounted"
 	content += "\n"
-	content += "class_name " + main_script_name.capitalize()
+	content += "class_name " + main_script_name.to_pascal_case()
 	content += "\n\n"
 	
-	content += "func accept(_visitor: %s):\n" % [(main_script_name + "_visitor").to_pascal_case()]
+	content += "func accept(_visitor: BaseVisitor):\n"
 	content += "\treturn\n"
 	
 	file.store_string(content)
@@ -83,8 +91,8 @@ func define_type(dir_path: String, parent_script_name: String, script_name: Stri
 	
 	# Write class it extends, and its own class name
 	var content: String = ""
-	content += "extends " + parent_script_name.capitalize() + "\n"
-	content += "class_name " + script_name.capitalize() + "\n"
+	content += "extends " + parent_script_name.to_pascal_case() + "\n"
+	content += "class_name " + script_name.to_pascal_case() + "\n"
 	content += "\n"
 	
 	# Write down variables
@@ -112,7 +120,7 @@ func define_type(dir_path: String, parent_script_name: String, script_name: Stri
 	
 	# Write accept() method
 	content += "\n"
-	content += "func accept(visitor: %s):\n" % [(parent_script_name + "_visitor").to_pascal_case()]
+	content += "func accept(visitor: BaseVisitor):\n"
 	content += "\treturn visitor.visit_%s_%s(self)\n" % [script_name, parent_script_name]
 	
 	# Save the file
@@ -127,7 +135,7 @@ func define_visitor(dir_path: String, parent_script_name: String, types: Array) 
 	
 	# Write class it extends, and its own class name
 	var content: String = ""
-	content += "extends RefCounted" + "\n"
+	content += "extends BaseVisitor" + "\n"
 	content += "class_name " + script_name.to_pascal_case() + "\n"
 	content += "\n"
 	
