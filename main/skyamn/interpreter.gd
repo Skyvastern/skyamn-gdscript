@@ -1,6 +1,8 @@
 extends BaseVisitor
 class_name Interpreter
 
+var environment: SkyEnvironment = SkyEnvironment.new()
+
 # emit(output: String)
 signal success
 
@@ -33,6 +35,15 @@ func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	emit_success(output)
 
 
+func visit_var_stmt(stmt: Var) -> void:
+	var value: Variant = null
+	
+	if stmt.initializer != null:
+		value = evaluate(stmt.initializer)
+	
+	environment.define(stmt.token_name.lexeme, value)
+
+
 
 func visit_literal_expr(literal: Literal) -> Variant:
 	return literal.value
@@ -54,6 +65,17 @@ func visit_unary_expr(unary: Unary) -> Variant:
 		return not is_truthy(right)
 	
 	return null
+
+
+func visit_variable_expr(variable: Variable) -> Variant:
+	var value: Variant = environment.get_value(variable.token_name)
+	
+	if value == null:
+		emit_runtime_error(variable.token_name, "Variable is not initialized.")
+		return null
+	
+	return value
+
 
 
 func is_truthy(variant: Variant) -> bool:

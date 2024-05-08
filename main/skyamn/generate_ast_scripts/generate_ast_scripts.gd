@@ -19,7 +19,8 @@ func generate() -> void:
 			"binary = left: Expr, operator: Token, right: Expr",
 			"grouping = expression: Expr",
 			"literal = value: Variant",
-			"unary = operator: Token, right: Expr"
+			"unary = operator: Token, right: Expr",
+			"variable = token_name: Token"
 		]
 	)
 	
@@ -27,7 +28,8 @@ func generate() -> void:
 		"stmt",
 		[
 			"sky_expression = expr: Expr",
-			"sky_print = expr: Expr"
+			"sky_print = expr: Expr",
+			"var = token_name: Token, initializer: Expr"
 		]
 	)
 

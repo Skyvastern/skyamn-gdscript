@@ -13,3 +13,6 @@ func visit_literal_expr(_literal: Literal):
 
 func visit_unary_expr(_unary: Unary):
 	pass
+
+func visit_variable_expr(_variable: Variable):
+	pass

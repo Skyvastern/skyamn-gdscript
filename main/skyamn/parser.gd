@@ -13,10 +13,16 @@ func parse() -> Array[Stmt]:
 	var statements: Array[Stmt] = []
 	
 	while not is_at_end():
-		statements.append(statement())
+		statements.append(declaration())
 	
 	return statements
 
+
+func declaration() -> Stmt:
+	if match_token_type([Token.TokenType.VAR]):
+		return var_declaration()
+	
+	return statement()
 
 
 func statement() -> Stmt:
@@ -36,6 +42,18 @@ func expression_statement() -> Stmt:
 	var expr: Expr = expression()
 	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyExpression.new(expr)
+
+
+func var_declaration() -> Stmt:
+	var token_name: Token = consume(Token.TokenType.IDENTIFIER, "Expect variable name.")
+	
+	var initializer: Expr = null
+	if match_token_type([Token.TokenType.EQUAL]):
+		initializer = expression()
+	
+	consume(Token.TokenType.SEMICOLON, "Expect ';' after variable declaration.")
+	return Var.new(token_name, initializer)
+
 
 
 func expression() -> Expr:
@@ -127,6 +145,9 @@ func primary() -> Expr:
 		Token.TokenType.STRING
 	]):
 		return Literal.new(previous().literal)
+	
+	if match_token_type([Token.TokenType.IDENTIFIER]):
+		return Variable.new(previous())
 	
 	if match_token_type([Token.TokenType.LEFT_PAREN]):
 		var expr: Expr = expression()
