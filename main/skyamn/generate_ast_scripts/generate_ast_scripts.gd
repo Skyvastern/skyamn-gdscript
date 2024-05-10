@@ -28,6 +28,7 @@ func generate() -> void:
 	define_ast(
 		"stmt",
 		[
+			"block = statements: Array[Stmt]",
 			"sky_expression = expr: Expr",
 			"sky_print = expr: Expr",
 			"var = token_name: Token, initializer: Expr"

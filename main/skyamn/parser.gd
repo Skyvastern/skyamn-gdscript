@@ -29,6 +29,9 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.PRINT]):
 		return print_statement()
 	
+	if match_token_type([Token.TokenType.LEFT_BRACE]):
+		return Block.new(block())
+	
 	return expression_statement()
 
 
@@ -42,6 +45,16 @@ func expression_statement() -> Stmt:
 	var expr: Expr = expression()
 	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyExpression.new(expr)
+
+
+func block() -> Array[Stmt]:
+	var statements: Array[Stmt] = []
+	
+	while not check(Token.TokenType.RIGHT_BRACE) and not is_at_end():
+		statements.append(declaration())
+	
+	consume(Token.TokenType.RIGHT_BRACE, "Expect '}' after block.")
+	return statements
 
 
 func var_declaration() -> Stmt:

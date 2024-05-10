@@ -35,6 +35,10 @@ func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	emit_success(output)
 
 
+func visit_block_stmt(block: Block) -> void:
+	execute_block(block.statements, SkyEnvironment.new(environment))
+
+
 func visit_var_stmt(stmt: Var) -> void:
 	var value: Variant = null
 	
@@ -42,6 +46,16 @@ func visit_var_stmt(stmt: Var) -> void:
 		value = evaluate(stmt.initializer)
 	
 	environment.define(stmt.token_name.lexeme, value)
+
+
+func execute_block(statements: Array[Stmt], new_environment: SkyEnvironment) -> void:
+	var previous_env: SkyEnvironment = environment
+	environment = new_environment
+	
+	for stmt in statements:
+		execute(stmt)
+	
+	environment = previous_env
 
 
 
