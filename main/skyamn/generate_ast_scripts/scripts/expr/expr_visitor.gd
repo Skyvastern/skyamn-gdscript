@@ -2,6 +2,9 @@ extends BaseVisitor
 class_name ExprVisitor
 
 
+func visit_assign_expr(_assign: Assign):
+	pass
+
 func visit_binary_expr(_binary: Binary):
 	pass
 

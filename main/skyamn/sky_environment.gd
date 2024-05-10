@@ -13,3 +13,11 @@ func get_value(token_name: Token) -> Variant:
 		return values[token_name.lexeme]
 	
 	return null
+
+
+func assign(token_name: Token, value: Variant) -> bool:
+	if values.get(token_name.lexeme):
+		values[token_name.lexeme] = value
+		return true
+	
+	return false

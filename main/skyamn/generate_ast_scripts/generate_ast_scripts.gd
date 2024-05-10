@@ -16,6 +16,7 @@ func generate() -> void:
 	define_ast(
 		"expr",
 		[
+			"assign = token_name: Token, value: Expr",
 			"binary = left: Expr, operator: Token, right: Expr",
 			"grouping = expression: Expr",
 			"literal = value: Variant",

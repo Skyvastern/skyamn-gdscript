@@ -57,7 +57,23 @@ func var_declaration() -> Stmt:
 
 
 func expression() -> Expr:
-	return equality()
+	return assignment()
+
+
+func assignment() -> Expr:
+	var expr = equality()
+	
+	if match_token_type([Token.TokenType.EQUAL]):
+		var equals: Token = previous()
+		var value: Expr = assignment()
+		
+		if expr is Variable:
+			var token_name: Token = expr.token_name
+			return Assign.new(token_name, value)
+		
+		Skyamn.error_token(equals, "Invalid assignment target.")
+	
+	return expr
 
 
 func equality() -> Expr:

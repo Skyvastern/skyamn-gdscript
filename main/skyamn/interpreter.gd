@@ -148,6 +148,16 @@ func visit_binary_expr(binary: Binary) -> Variant:
 	return null
 
 
+func visit_assign_expr(assign: Assign) -> Variant:
+	var value: Variant = evaluate(assign.value)
+	var result: bool = environment.assign(assign.token_name, value)
+		
+	if not result:
+		emit_runtime_error(assign.token_name, "Undefined variable.")
+	
+	return value
+
+
 func evaluate(expr: Expr) -> Variant:
 	return expr.accept(self)
 
