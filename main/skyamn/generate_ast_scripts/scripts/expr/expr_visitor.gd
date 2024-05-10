@@ -14,6 +14,9 @@ func visit_grouping_expr(_grouping: Grouping):
 func visit_literal_expr(_literal: Literal):
 	pass
 
+func visit_logical_expr(_logical: Logical):
+	pass
+
 func visit_unary_expr(_unary: Unary):
 	pass
 

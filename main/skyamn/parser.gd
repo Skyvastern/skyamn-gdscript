@@ -26,6 +26,9 @@ func declaration() -> Stmt:
 
 
 func statement() -> Stmt:
+	if match_token_type([Token.TokenType.IF]):
+		return if_statement()
+	
 	if match_token_type([Token.TokenType.PRINT]):
 		return print_statement()
 	
@@ -33,6 +36,20 @@ func statement() -> Stmt:
 		return Block.new(block())
 	
 	return expression_statement()
+
+
+func if_statement() -> Stmt:
+	consume(Token.TokenType.LEFT_PAREN, "Expect '(' after if.")
+	var condition: Expr = expression()
+	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after if condition.")
+	
+	var then_branch: Stmt = statement()
+	
+	var else_branch: Stmt = null
+	if match_token_type([Token.TokenType.ELSE]):
+		else_branch = statement()
+	
+	return If.new(condition, then_branch, else_branch)
 
 
 func print_statement() -> Stmt:
@@ -74,7 +91,7 @@ func expression() -> Expr:
 
 
 func assignment() -> Expr:
-	var expr = equality()
+	var expr = or_operation()
 	
 	if match_token_type([Token.TokenType.EQUAL]):
 		var equals: Token = previous()
@@ -85,6 +102,28 @@ func assignment() -> Expr:
 			return Assign.new(token_name, value)
 		
 		Skyamn.error_token(equals, "Invalid assignment target.")
+	
+	return expr
+
+
+func or_operation() -> Expr:
+	var expr: Expr = and_operation()
+	
+	while match_token_type([Token.TokenType.OR]):
+		var operator: Token = previous()
+		var right: Expr = and_operation()
+		expr = Logical.new(expr, operator, right)
+	
+	return expr
+
+
+func and_operation() -> Expr:
+	var expr: Expr = equality()
+	
+	while match_token_type([Token.TokenType.AND]):
+		var operator: Token = previous()
+		var right: Expr = equality()
+		expr = Logical.new(expr, operator, right)
 	
 	return expr
 

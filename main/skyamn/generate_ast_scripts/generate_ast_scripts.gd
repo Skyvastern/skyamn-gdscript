@@ -20,6 +20,7 @@ func generate() -> void:
 			"binary = left: Expr, operator: Token, right: Expr",
 			"grouping = expression: Expr",
 			"literal = value: Variant",
+			"logical = left: Expr, operator: Token, right: Expr",
 			"unary = operator: Token, right: Expr",
 			"variable = token_name: Token"
 		]
@@ -28,10 +29,11 @@ func generate() -> void:
 	define_ast(
 		"stmt",
 		[
-			"block = statements: Array[Stmt]",
 			"sky_expression = expr: Expr",
 			"sky_print = expr: Expr",
-			"var = token_name: Token, initializer: Expr"
+			"var = token_name: Token, initializer: Expr",
+			"block = statements: Array[Stmt]",
+			"if = condition: Expr, then_branch: Stmt, else_branch: Stmt"
 		]
 	)
 

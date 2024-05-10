@@ -29,6 +29,13 @@ func visit_sky_expression_stmt(stmt: SkyExpression) -> void:
 	evaluate(stmt.expr)
 
 
+func visit_if_stmt(stmt: If) -> void:
+	if is_truthy(evaluate(stmt.condition)):
+		execute(stmt.then_branch)
+	elif stmt.else_branch != null:
+		execute(stmt.else_branch)
+
+
 func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	var value: Variant = evaluate(stmt.expr)
 	var output: String = stringify(value)
@@ -170,6 +177,19 @@ func visit_assign_expr(assign: Assign) -> Variant:
 		emit_runtime_error(assign.token_name, "Undefined variable.")
 	
 	return value
+
+
+func visit_logical_expr(logical: Logical) -> Variant:
+	var left: Variant = evaluate(logical.left)
+	
+	if logical.operator.type == Token.TokenType.OR:
+		if is_truthy(left):
+			return left
+	else:
+		if not is_truthy(left):
+			return left
+	
+	return evaluate(logical.right)
 
 
 func evaluate(expr: Expr) -> Variant:
