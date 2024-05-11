@@ -14,7 +14,7 @@ func define(var_name: String, value: Variant) -> void:
 
 
 func get_value(token_name: Token) -> Variant:
-	if values.get(token_name.lexeme):
+	if values.get(token_name.lexeme) != null:
 		return values[token_name.lexeme]
 	
 	if enclosing != null:
@@ -24,7 +24,7 @@ func get_value(token_name: Token) -> Variant:
 
 
 func assign(token_name: Token, value: Variant) -> bool:
-	if values.get(token_name.lexeme):
+	if values.get(token_name.lexeme) != null:
 		values[token_name.lexeme] = value
 		return true
 	
