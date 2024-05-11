@@ -16,3 +16,6 @@ func visit_block_stmt(_block: Block):
 
 func visit_if_stmt(_if: If):
 	pass
+
+func visit_while_stmt(_while: While):
+	pass

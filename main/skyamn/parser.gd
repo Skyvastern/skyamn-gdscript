@@ -32,6 +32,9 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.PRINT]):
 		return print_statement()
 	
+	if match_token_type([Token.TokenType.WHILE]):
+		return while_statement()
+	
 	if match_token_type([Token.TokenType.LEFT_BRACE]):
 		return Block.new(block())
 	
@@ -56,6 +59,15 @@ func print_statement() -> Stmt:
 	var value: Expr = expression()
 	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyPrint.new(value)
+
+
+func while_statement() -> Stmt:
+	consume(Token.TokenType.LEFT_PAREN, "Expect '(' after 'while'.")
+	var condition: Expr = expression()
+	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after condition.")
+	var body: Stmt = statement()
+	
+	return While.new(condition, body)
 
 
 func expression_statement() -> Stmt:

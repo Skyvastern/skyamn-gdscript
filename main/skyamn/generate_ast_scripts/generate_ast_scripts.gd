@@ -33,7 +33,8 @@ func generate() -> void:
 			"sky_print = expr: Expr",
 			"var = token_name: Token, initializer: Expr",
 			"block = statements: Array[Stmt]",
-			"if = condition: Expr, then_branch: Stmt, else_branch: Stmt"
+			"if = condition: Expr, then_branch: Stmt, else_branch: Stmt",
+			"while = condition: Expr, body: Stmt"
 		]
 	)
 

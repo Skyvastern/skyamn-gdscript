@@ -42,6 +42,11 @@ func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	emit_success(output)
 
 
+func visit_while_stmt(stmt: While) -> void:
+	while is_truthy(evaluate(stmt.condition)):
+		execute(stmt.body)
+
+
 func visit_block_stmt(block: Block) -> void:
 	execute_block(block.statements, SkyEnvironment.new(environment))
 
