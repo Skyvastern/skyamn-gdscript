@@ -26,6 +26,9 @@ func declaration() -> Stmt:
 
 
 func statement() -> Stmt:
+	if match_token_type([Token.TokenType.FOR]):
+		return for_statement()
+	
 	if match_token_type([Token.TokenType.IF]):
 		return if_statement()
 	
@@ -39,6 +42,58 @@ func statement() -> Stmt:
 		return Block.new(block())
 	
 	return expression_statement()
+
+
+func for_statement() -> Stmt:
+	consume(Token.TokenType.LEFT_PAREN, "Expect '(' after 'for'.")
+	
+	# Get initializer statement
+	var initializer: Stmt
+	
+	if match_token_type([Token.TokenType.SEMICOLON]):
+		initializer = null
+	elif match_token_type([Token.TokenType.VAR]):
+		initializer = var_declaration()
+	else:
+		initializer = expression_statement()
+	
+	# Get conditional expressional
+	var condition: Expr = null
+	
+	if not check(Token.TokenType.SEMICOLON):
+		condition = expression()
+	
+	consume(Token.TokenType.SEMICOLON, "Expect ';' after loop condition.")
+	
+	# Get increment expression
+	var increment: Expr = null
+	if not check(Token.TokenType.RIGHT_PAREN):
+		increment = expression()
+	
+	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after for clauses.")
+	
+	# Get the body
+	var body: Stmt = statement()
+	
+	# Desugar for loop to a while loop
+	if increment != null:
+		body = Block.new([
+			body,
+			SkyExpression.new(increment)
+		])
+	
+	if condition == null:
+		condition = Literal.new(true)
+	
+	body = While.new(condition, body)
+	
+	if initializer != null:
+		body = Block.new([
+			initializer,
+			body
+		])
+	
+	return body
 
 
 func if_statement() -> Stmt:
