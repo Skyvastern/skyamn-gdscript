@@ -5,6 +5,9 @@ class_name StmtVisitor
 func visit_sky_expression_stmt(_sky_expression: SkyExpression):
 	pass
 
+func visit_sky_function_stmt(_sky_function: SkyFunction):
+	pass
+
 func visit_sky_print_stmt(_sky_print: SkyPrint):
 	pass
 

@@ -1,7 +1,8 @@
 extends BaseVisitor
 class_name Interpreter
 
-var environment: SkyEnvironment = SkyEnvironment.new()
+var globals: SkyEnvironment = SkyEnvironment.new()
+var environment: SkyEnvironment = globals
 
 # emit(output: String)
 signal success
@@ -13,6 +14,8 @@ signal runtime_error
 func _init(on_success: Callable, on_runtime_error: Callable) -> void:
 	success.connect(on_success)
 	runtime_error.connect(on_runtime_error)
+	
+	globals.define("clock", Clock.new())
 
 
 func interpret(statements: Array[Stmt]) -> void:
@@ -27,6 +30,11 @@ func execute(stmt: Stmt) -> void:
 
 func visit_sky_expression_stmt(stmt: SkyExpression) -> void:
 	evaluate(stmt.expr)
+
+
+func visit_sky_function_stmt(stmt: SkyFunction):
+	var function: SkyamnFunction = SkyamnFunction.new(stmt)
+	environment.define(stmt.token_name.lexeme, function)
 
 
 func visit_if_stmt(stmt: If) -> void:
@@ -172,6 +180,29 @@ func visit_binary_expr(binary: Binary) -> Variant:
 		return not is_equal(left, right)
 	
 	return null
+
+
+func visit_call_expr(expr: Call) -> Variant:
+	var callee: Variant = evaluate(expr.callee)
+	
+	var arguments: Array = []
+	for arg in expr.arguments:
+		arguments.append(
+			evaluate(arg)
+		)
+	
+	if not (callee is SkyamnCallable):
+		emit_runtime_error(expr.paren, "Can only call functions and classes.")
+	
+	var function: SkyamnCallable = callee as SkyamnCallable
+	
+	if arguments.size() != function.arity():
+		emit_runtime_error(
+			expr.paren,
+			"Expected %s arguments, but got %s." % [function.arity(), arguments.size()]
+		)
+	
+	return function.run(self, arguments)
 
 
 func visit_assign_expr(assign: Assign) -> Variant:

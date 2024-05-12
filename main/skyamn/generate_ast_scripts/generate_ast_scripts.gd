@@ -18,6 +18,7 @@ func generate() -> void:
 		[
 			"assign = token_name: Token, value: Expr",
 			"binary = left: Expr, operator: Token, right: Expr",
+			"call = callee: Expr, paren: Token, arguments: Array[Expr]",
 			"grouping = expression: Expr",
 			"literal = value: Variant",
 			"logical = left: Expr, operator: Token, right: Expr",
@@ -30,6 +31,7 @@ func generate() -> void:
 		"stmt",
 		[
 			"sky_expression = expr: Expr",
+			"sky_function = token_name: Token, params: Array[Token], body: Array[Stmt]",
 			"sky_print = expr: Expr",
 			"var = token_name: Token, initializer: Expr",
 			"block = statements: Array[Stmt]",

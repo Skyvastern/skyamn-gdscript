@@ -19,6 +19,9 @@ func parse() -> Array[Stmt]:
 
 
 func declaration() -> Stmt:
+	if match_token_type([Token.TokenType.FUN]):
+		return function_declaration("function")
+	
 	if match_token_type([Token.TokenType.VAR]):
 		return var_declaration()
 	
@@ -139,6 +142,46 @@ func block() -> Array[Stmt]:
 	
 	consume(Token.TokenType.RIGHT_BRACE, "Expect '}' after block.")
 	return statements
+
+
+func function_declaration(kind: String) -> SkyFunction:
+	# Get function name
+	var token_name: Token = consume(
+		Token.TokenType.IDENTIFIER,
+		"Expect %s name." % kind
+	)
+	
+	# Get function parameters
+	consume(
+		Token.TokenType.LEFT_PAREN,
+		"Expect '(' after %s name." % kind
+	)
+	
+	var parameters: Array[Token] = []
+	if not check(Token.TokenType.RIGHT_PAREN):
+		if parameters.size() >= 255:
+			Skyamn.error_token(peek(), "Can't have more than 255 parameters.")
+		
+		parameters.append(
+			consume(Token.TokenType.IDENTIFIER, "Expect parameter name.")
+		)
+		
+		while match_token_type([Token.TokenType.COMMA]):
+			if parameters.size() >= 255:
+				Skyamn.error_token(peek(), "Can't have more than 255 parameters.")
+			
+			parameters.append(
+				consume(Token.TokenType.IDENTIFIER, "Expect parameter name.")
+			)
+	
+	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after parameters.")
+	
+	# Get function body
+	consume(Token.TokenType.LEFT_BRACE, "Expect '{' before %s body." % kind)
+	var body: Array[Stmt] = block()
+	
+	# Create and return the function node
+	return SkyFunction.new(token_name, parameters, body)
 
 
 func var_declaration() -> Stmt:
@@ -262,7 +305,38 @@ func unary() -> Expr:
 		var right: Expr = unary()
 		return Unary.new(operator, right)
 	
-	return primary()
+	return function_call()
+
+
+func function_call() -> Expr:
+	var expr: Expr = primary()
+	
+	while true:
+		if match_token_type([Token.TokenType.LEFT_PAREN]):
+			expr = finish_function_call(expr)
+		else:
+			break
+	
+	return expr
+
+
+func finish_function_call(callee: Expr) -> Expr:
+	var arguments: Array[Expr] = []
+	
+	if not check(Token.TokenType.RIGHT_PAREN):
+		if arguments.size() >= 255:
+			Skyamn.error_token(peek(), "Can't have more than 255 arguments.")
+		
+		arguments.append(expression())
+		
+		while match_token_type([Token.TokenType.COMMA]):
+			if arguments.size() >= 255:
+				Skyamn.error_token(peek(), "Can't have more than 255 arguments.")
+			
+			arguments.append(expression())
+	
+	var paren: Token = consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after arguments.")
+	return Call.new(callee, paren, arguments)
 
 
 func primary() -> Expr:

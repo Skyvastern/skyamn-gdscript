@@ -8,6 +8,9 @@ func visit_assign_expr(_assign: Assign):
 func visit_binary_expr(_binary: Binary):
 	pass
 
+func visit_call_expr(_call: Call):
+	pass
+
 func visit_grouping_expr(_grouping: Grouping):
 	pass
 
