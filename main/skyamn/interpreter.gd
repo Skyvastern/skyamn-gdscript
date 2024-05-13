@@ -35,7 +35,7 @@ func visit_sky_expression_stmt(stmt: SkyExpression) -> void:
 
 
 func visit_sky_function_stmt(stmt: SkyFunction):
-	var function: SkyamnFunction = SkyamnFunction.new(stmt)
+	var function: SkyamnFunction = SkyamnFunction.new(stmt, environment)
 	environment.define(stmt.token_name.lexeme, function)
 
 

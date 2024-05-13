@@ -2,14 +2,16 @@ extends SkyamnCallable
 class_name SkyamnFunction
 
 var declaration: SkyFunction
+var closure: SkyEnvironment
 
 
-func _init(_declaration: SkyFunction) -> void:
+func _init(_declaration: SkyFunction, _closure: SkyEnvironment) -> void:
 	declaration = _declaration
+	closure = _closure
 
 
 func run(interpreter: Interpreter, arguments: Array[Variant]) -> Variant:
-	var environment: SkyEnvironment = SkyEnvironment.new(interpreter.globals)
+	var environment: SkyEnvironment = SkyEnvironment.new(closure)
 	
 	for i in range(declaration.params.size()):
 		environment.define(
