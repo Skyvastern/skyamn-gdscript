@@ -10,6 +10,8 @@ signal success
 # emit(token: Token, message: String)
 signal runtime_error
 
+var return_value_set: Variant = null
+
 
 func _init(on_success: Callable, on_runtime_error: Callable) -> void:
 	success.connect(on_success)
@@ -50,8 +52,16 @@ func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	emit_success(output)
 
 
+func visit_return_stmt(stmt: Return):
+	var value: Variant = null
+	if stmt.value != null:
+		value = evaluate(stmt.value)
+	
+	return_value_set = value
+
+
 func visit_while_stmt(stmt: While) -> void:
-	while is_truthy(evaluate(stmt.condition)):
+	while return_value_set == null and is_truthy(evaluate(stmt.condition)):
 		execute(stmt.body)
 
 
@@ -73,6 +83,9 @@ func execute_block(statements: Array[Stmt], new_environment: SkyEnvironment) -> 
 	environment = new_environment
 	
 	for stmt in statements:
+		if return_value_set != null:
+			break
+		
 		execute(stmt)
 	
 	environment = previous_env

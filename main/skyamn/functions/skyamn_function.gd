@@ -18,6 +18,12 @@ func run(interpreter: Interpreter, arguments: Array[Variant]) -> Variant:
 		)
 	
 	interpreter.execute_block(declaration.body, environment)
+	
+	if interpreter.return_value_set != null:
+		var return_value: Variant = interpreter.return_value_set
+		interpreter.return_value_set = null
+		return return_value
+	
 	return null
 
 

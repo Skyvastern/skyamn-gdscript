@@ -38,6 +38,9 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.PRINT]):
 		return print_statement()
 	
+	if match_token_type([Token.TokenType.RETURN]):
+		return return_statement()
+	
 	if match_token_type([Token.TokenType.WHILE]):
 		return while_statement()
 	
@@ -117,6 +120,17 @@ func print_statement() -> Stmt:
 	var value: Expr = expression()
 	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyPrint.new(value)
+
+
+func return_statement() -> Stmt:
+	var keyword: Token = previous()
+	var value: Expr = null
+	
+	if not check(Token.TokenType.SEMICOLON):
+		value = expression()
+	
+	consume(Token.TokenType.SEMICOLON, "Expect ';' after return value.")
+	return Return.new(keyword, value)
 
 
 func while_statement() -> Stmt:

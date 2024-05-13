@@ -33,6 +33,7 @@ func generate() -> void:
 			"sky_expression = expr: Expr",
 			"sky_function = token_name: Token, params: Array[Token], body: Array[Stmt]",
 			"sky_print = expr: Expr",
+			"return = keyword: Token, value: Expr",
 			"var = token_name: Token, initializer: Expr",
 			"block = statements: Array[Stmt]",
 			"if = condition: Expr, then_branch: Stmt, else_branch: Stmt",

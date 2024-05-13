@@ -11,6 +11,9 @@ func visit_sky_function_stmt(_sky_function: SkyFunction):
 func visit_sky_print_stmt(_sky_print: SkyPrint):
 	pass
 
+func visit_return_stmt(_return: Return):
+	pass
+
 func visit_var_stmt(_var: Var):
 	pass
 
