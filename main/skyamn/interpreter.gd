@@ -3,6 +3,7 @@ class_name Interpreter
 
 var globals: SkyEnvironment = SkyEnvironment.new()
 var environment: SkyEnvironment = globals
+var locals: Dictionary = {}
 
 # emit(output: String)
 signal success
@@ -27,6 +28,10 @@ func interpret(statements: Array[Stmt]) -> void:
 
 func execute(stmt: Stmt) -> void:
 	stmt.accept(self)
+
+
+func resolve(expr: Expr, depth: int) -> void:
+	locals[expr] = depth
 
 
 
@@ -115,13 +120,20 @@ func visit_unary_expr(unary: Unary) -> Variant:
 
 
 func visit_variable_expr(variable: Variable) -> Variant:
-	var value: Variant = environment.get_value(variable.token_name)
-	
+	var value = look_up_variable(variable.token_name, variable)
 	if value == null:
 		emit_runtime_error(variable.token_name, "Variable is not initialized.")
-		return null
 	
 	return value
+
+
+func look_up_variable(token_name: Token, expr: Expr) -> Variant:
+	var distance = locals.get(expr)
+	
+	if distance != null:
+		return environment.get_at(distance, token_name.lexeme)
+	else:
+		return globals.get_value(token_name)
 
 
 
@@ -220,7 +232,14 @@ func visit_call_expr(expr: Call) -> Variant:
 
 func visit_assign_expr(assign: Assign) -> Variant:
 	var value: Variant = evaluate(assign.value)
-	var result: bool = environment.assign(assign.token_name, value)
+	var distance = locals.get(assign)
+	var result: bool = false
+	
+	if distance != null:
+		environment.assign_at(distance, assign.token_name, value)
+		result = true
+	else:
+		result = globals.assign(assign.token_name, value)
 	
 	if not result:
 		emit_runtime_error(assign.token_name, "Undefined variable.")

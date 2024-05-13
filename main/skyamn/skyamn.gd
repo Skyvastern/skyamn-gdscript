@@ -37,6 +37,7 @@ func _run(source: String) -> void:
 	var parser: Parser = Parser.new(tokens)
 	var statements: Array[Stmt] = parser.parse()
 	
+	# Stop if parse error(s) found
 	if had_error:
 		return
 	
@@ -44,6 +45,13 @@ func _run(source: String) -> void:
 		_on_success,
 		_on_runtime_error
 	)
+	
+	var resolver: Resolver = Resolver.new(interpreter)
+	resolver.resolve(statements)
+	
+	# Stop if resolution error(s) found
+	if had_error:
+		return
 	
 	interpreter.interpret(statements)
 
