@@ -1,12 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://0aheb7v37rpf"]
+[gd_scene load_steps=14 format=3 uid="uid://0aheb7v37rpf"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_juhc7"]
+[ext_resource type="Theme" uid="uid://cm58mhk8a3nj6" path="res://main/common/main_theme.tres" id="2_vd6ir"]
+[ext_resource type="Texture2D" uid="uid://coh74byapyr7m" path="res://main/assets/textures/window_buttons/minimize_btn_normal.svg" id="3_3ll2u"]
+[ext_resource type="Texture2D" uid="uid://cggnugtllvtf8" path="res://main/assets/textures/window_buttons/close_btn_normal.svg" id="3_n1un6"]
+[ext_resource type="Texture2D" uid="uid://cqi60utdtrww8" path="res://main/assets/textures/window_buttons/close_btn_pressed.svg" id="4_2ii4w"]
+[ext_resource type="Texture2D" uid="uid://ckea6tt45oohv" path="res://main/assets/textures/window_buttons/minimize_btn_pressed.svg" id="4_omm4j"]
+[ext_resource type="Texture2D" uid="uid://vfvg1uutmeye" path="res://main/assets/textures/window_buttons/minimize_btn_hover.svg" id="5_gm5mq"]
+[ext_resource type="Texture2D" uid="uid://03khg6o6hd53" path="res://main/assets/textures/window_buttons/close_btn_hover.svg" id="5_yfv05"]
+[ext_resource type="Texture2D" uid="uid://10w4co1ljtea" path="res://main/assets/textures/window_buttons/maximize_btn_normal.svg" id="6_nlmy4"]
+[ext_resource type="Texture2D" uid="uid://br0pbxlmrw15" path="res://main/assets/textures/window_buttons/maximize_btn_pressed.svg" id="7_vbtet"]
+[ext_resource type="Texture2D" uid="uid://gkrog50c0it1" path="res://main/assets/textures/window_buttons/maximize_btn_hover.svg" id="8_lxmhb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8s0lf"]
+bg_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhgiw"]
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
 
 [node name="Main" type="Node" node_paths=PackedStringArray("code", "run_btn", "output")]
 script = ExtResource("1_juhc7")
-code = NodePath("UI/Container/Code Editor/Code")
-run_btn = NodePath("UI/Container/Code Editor/Run Button")
-output = NodePath("UI/Container/Output Panel/Panel/Output")
+code = NodePath("UI/Editor/VBoxContainer/Main/Content/Code Editor")
+run_btn = NodePath("UI/Editor/VBoxContainer/Main/Run Button")
+output = NodePath("UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel/ScrollContainer/Output")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -15,56 +31,213 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_vd6ir")
 
-[node name="Container" type="HBoxContainer" parent="UI"]
+[node name="BG" type="ColorRect" parent="UI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 105.0
-offset_top = 59.0
-offset_right = -105.0
-offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.45098, 0.588235, 1, 1)
+
+[node name="Editor" type="Panel" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -505.0
+offset_top = -297.0
+offset_right = 505.0
+offset_bottom = 297.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8s0lf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Code Editor" type="VBoxContainer" parent="UI/Container"]
+[node name="Header" type="ColorRect" parent="UI/Editor/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-[node name="Code" type="TextEdit" parent="UI/Container/Code Editor"]
+[node name="Buttons" type="HBoxContainer" parent="UI/Editor/VBoxContainer/Header"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_right = -4.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Minimize" type="TextureButton" parent="UI/Editor/VBoxContainer/Header/Buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+texture_normal = ExtResource("3_3ll2u")
+texture_pressed = ExtResource("4_omm4j")
+texture_hover = ExtResource("5_gm5mq")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Maximize" type="TextureButton" parent="UI/Editor/VBoxContainer/Header/Buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+texture_normal = ExtResource("6_nlmy4")
+texture_pressed = ExtResource("7_vbtet")
+texture_hover = ExtResource("8_lxmhb")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Close" type="TextureButton" parent="UI/Editor/VBoxContainer/Header/Buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+texture_normal = ExtResource("3_n1un6")
+texture_pressed = ExtResource("4_2ii4w")
+texture_hover = ExtResource("5_yfv05")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Main" type="VBoxContainer" parent="UI/Editor/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Content" type="HBoxContainer" parent="UI/Editor/VBoxContainer/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Code Editor" type="TextEdit" parent="UI/Editor/VBoxContainer/Main/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 theme_override_font_sizes/font_size = 24
-text = "var language = \"lox\";"
 placeholder_text = "Write your code here"
 wrap_mode = 1
+caret_blink = true
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_tabs = true
 
-[node name="Run Button" type="Button" parent="UI/Container/Code Editor"]
+[node name="Result" type="ScrollContainer" parent="UI/Editor/VBoxContainer/Main/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Base Panel" type="Panel" parent="UI/Editor/VBoxContainer/Main/Content/Result"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Items" type="VBoxContainer" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Tabs" type="HBoxContainer" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Output Tab Btn" type="Button" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 24
+text = "Output"
+
+[node name="Errors Tab Btn" type="Button" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 24
+text = "Errors"
+
+[node name="Output Panel" type="Panel" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_xhgiw")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Output" type="Label" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel/ScrollContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Hello, world!"
+autowrap_mode = 2
+
+[node name="Errors Panel" type="Panel" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_xhgiw")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Errors Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Errors" type="Label" parent="UI/Editor/VBoxContainer/Main/Content/Result/Base Panel/MarginContainer/Items/Errors Panel/ScrollContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.392157, 0.431373, 1)
+theme_override_font_sizes/font_size = 24
+text = "Undefined variable - a"
+autowrap_mode = 2
+
+[node name="Run Button" type="Button" parent="UI/Editor/VBoxContainer/Main"]
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 36
 text = "Run"
-
-[node name="Output Panel" type="ScrollContainer" parent="UI/Container"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Panel" type="Panel" parent="UI/Container/Output Panel"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Output" type="Label" parent="UI/Container/Output Panel/Panel"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 12.0
-offset_top = 14.0
-offset_right = -12.0
-offset_bottom = 37.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "---------- Output ----------"
-autowrap_mode = 2
