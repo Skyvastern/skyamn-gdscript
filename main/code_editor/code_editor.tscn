@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bip4l7haflx71"]
+[gd_scene load_steps=16 format=3 uid="uid://bip4l7haflx71"]
 
 [ext_resource type="Script" path="res://main/code_editor/code_editor.gd" id="1_dt2rk"]
 [ext_resource type="Theme" uid="uid://cm58mhk8a3nj6" path="res://main/common/main_theme.tres" id="1_j7nv4"]
@@ -15,6 +15,20 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8s0lf"]
 bg_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_5lim2"]
+number_color = Color(0.784314, 1, 0.882353, 1)
+symbol_color = Color(0.686275, 0.784314, 1, 1)
+function_color = Color(0.784314, 0.882353, 1, 1)
+member_variable_color = Color(1, 0.960784, 0.686275, 1)
+keyword_colors = {
+"else": Color(1, 0.686275, 0.784314, 1),
+"for": Color(1, 0.686275, 0.784314, 1),
+"if": Color(1, 0.686275, 0.784314, 1),
+"print": Color(0.784314, 0.882353, 1, 1),
+"var": Color(1, 0.686275, 0.784314, 1),
+"while": Color(1, 0.686275, 0.784314, 1)
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhgiw"]
 bg_color = Color(0.156863, 0.156863, 0.156863, 1)
@@ -122,6 +136,7 @@ size_flags_stretch_ratio = 2.0
 theme_override_font_sizes/font_size = 24
 placeholder_text = "Write your code here"
 caret_blink = true
+syntax_highlighter = SubResource("CodeHighlighter_5lim2")
 highlight_all_occurrences = true
 highlight_current_line = true
 draw_tabs = true
