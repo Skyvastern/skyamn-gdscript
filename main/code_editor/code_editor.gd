@@ -14,6 +14,15 @@ class_name CodeEditor
 
 func _ready() -> void:
 	run_btn.pressed.connect(_on_run_btn_pressed)
+	code.text_changed.connect(_on_code_text_changed)
+	
+	_setup()
+
+
+func _setup() -> void:
+	# Set gutter for line numbers
+	code.add_gutter(0)
+	code.set_gutter_width(0, 50)
 
 
 func _on_run_btn_pressed() -> void:
@@ -34,3 +43,11 @@ func _on_result_log_message(message: String) -> void:
 func _on_result_runtime_error(error_message: String) -> void:
 	errors_label.text += error_message + "\n\n"
 	tabs_container.current_tab = 1
+
+
+func _on_code_text_changed() -> void:
+	var lines: int = code.get_line_count()
+	
+	for i in range(lines):
+		code.set_line_gutter_text(i, 0, str(i + 1))
+		code.set_line_gutter_item_color(i, 0, Color.GRAY)
