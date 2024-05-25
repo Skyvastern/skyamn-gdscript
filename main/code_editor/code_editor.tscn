@@ -36,8 +36,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_8s0lf")
 script = ExtResource("1_dt2rk")
 code = NodePath("Layout/Main/Content/Code")
 run_btn = NodePath("Layout/Main/Run Button")
-output_label = NodePath("Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel/ScrollContainer/Output")
-error_label = NodePath("Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Errors Panel/ScrollContainer/Error")
+output_label = NodePath("Layout/Main/Content/Result/Output/Output Container/Panel/ScrollContainer/Output")
+error_label = NodePath("Layout/Main/Content/Result/Errors/Errors Container/Panel/ScrollContainer/Error")
 
 [node name="Layout" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -126,16 +126,15 @@ highlight_all_occurrences = true
 highlight_current_line = true
 draw_tabs = true
 
-[node name="Result" type="ScrollContainer" parent="Layout/Main/Content"]
+[node name="Result" type="TabContainer" parent="Layout/Main/Content"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 
-[node name="Base Panel" type="Panel" parent="Layout/Main/Content/Result"]
+[node name="Output" type="TabBar" parent="Layout/Main/Content/Result"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Layout/Main/Content/Result/Base Panel"]
+[node name="Output Container" type="MarginContainer" parent="Layout/Main/Content/Result/Output"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -147,34 +146,12 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Items" type="VBoxContainer" parent="Layout/Main/Content/Result/Base Panel/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Tabs" type="HBoxContainer" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Output Tab Btn" type="Button" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Tabs"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 24
-text = "Output"
-
-[node name="Errors Tab Btn" type="Button" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Tabs"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 24
-text = "Errors"
-
-[node name="Output Panel" type="Panel" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items"]
+[node name="Panel" type="Panel" parent="Layout/Main/Content/Result/Output/Output Container"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_xhgiw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Layout/Main/Content/Result/Output/Output Container/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -187,7 +164,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 
-[node name="Output" type="Label" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Output Panel/ScrollContainer"]
+[node name="Output" type="Label" parent="Layout/Main/Content/Result/Output/Output Container/Panel/ScrollContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -195,13 +172,28 @@ theme_override_font_sizes/font_size = 24
 text = "Hello, world!"
 autowrap_mode = 2
 
-[node name="Errors Panel" type="Panel" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items"]
+[node name="Errors" type="TabBar" parent="Layout/Main/Content/Result"]
 visible = false
+layout_mode = 2
+
+[node name="Errors Container" type="MarginContainer" parent="Layout/Main/Content/Result/Errors"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Panel" type="Panel" parent="Layout/Main/Content/Result/Errors/Errors Container"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_xhgiw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Errors Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Layout/Main/Content/Result/Errors/Errors Container/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -214,7 +206,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 
-[node name="Error" type="Label" parent="Layout/Main/Content/Result/Base Panel/MarginContainer/Items/Errors Panel/ScrollContainer"]
+[node name="Error" type="Label" parent="Layout/Main/Content/Result/Errors/Errors Container/Panel/ScrollContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_horizontal = 3
