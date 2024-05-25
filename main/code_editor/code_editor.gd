@@ -1,10 +1,10 @@
 extends Node
-class_name Main
+class_name CodeEditor
 
-@export_group("UI")
 @export var code: TextEdit
 @export var run_btn: Button
-@export var output: Label
+@export var output_label: Label
+@export var error_label: Label
 
 
 func _ready() -> void:
