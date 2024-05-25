@@ -26,6 +26,11 @@ func _setup() -> void:
 
 
 func _on_run_btn_pressed() -> void:
+	# Clear output and errors log
+	output_label.text = ""
+	errors_label.text = ""
+	
+	# Run the program
 	var source: String = code.text
 	
 	var skyamn: Skyamn = Skyamn.new()
@@ -37,11 +42,16 @@ func _on_run_btn_pressed() -> void:
 
 func _on_result_log_message(message: String) -> void:
 	output_label.text += message + "\n"
-	tabs_container.current_tab = 0
+	
+	# Only switch to output tab if there are no errors
+	if errors_label.text == "":
+		tabs_container.current_tab = 0
 
 
 func _on_result_runtime_error(error_message: String) -> void:
 	errors_label.text += error_message + "\n\n"
+	
+	# Switch to errors tab
 	tabs_container.current_tab = 1
 
 
