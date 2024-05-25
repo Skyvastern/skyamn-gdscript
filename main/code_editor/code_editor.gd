@@ -23,6 +23,12 @@ func _setup() -> void:
 	# Set gutter for line numbers
 	code.add_gutter(0)
 	code.set_gutter_width(0, 50)
+	
+	# Add line 1
+	code.set_line_gutter_text(0, 0, "1")
+	
+	# Set focus
+	code.grab_focus()
 
 
 func _on_run_btn_pressed() -> void:
