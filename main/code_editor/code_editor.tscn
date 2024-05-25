@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bip4l7haflx71"]
+[gd_scene load_steps=15 format=3 uid="uid://bip4l7haflx71"]
 
 [ext_resource type="Script" path="res://main/code_editor/code_editor.gd" id="1_dt2rk"]
 [ext_resource type="Theme" uid="uid://cm58mhk8a3nj6" path="res://main/common/main_theme.tres" id="1_j7nv4"]
 [ext_resource type="Texture2D" uid="uid://coh74byapyr7m" path="res://main/assets/textures/window_buttons/minimize_btn_normal.svg" id="1_vv5ln"]
 [ext_resource type="Texture2D" uid="uid://ckea6tt45oohv" path="res://main/assets/textures/window_buttons/minimize_btn_pressed.svg" id="2_bjcvu"]
+[ext_resource type="Script" path="res://main/common/scripts/window_header.gd" id="3_5gl8k"]
 [ext_resource type="Texture2D" uid="uid://vfvg1uutmeye" path="res://main/assets/textures/window_buttons/minimize_btn_hover.svg" id="3_h5ixk"]
 [ext_resource type="Texture2D" uid="uid://10w4co1ljtea" path="res://main/assets/textures/window_buttons/maximize_btn_normal.svg" id="4_27yns"]
 [ext_resource type="Texture2D" uid="uid://br0pbxlmrw15" path="res://main/assets/textures/window_buttons/maximize_btn_pressed.svg" id="5_2bwd5"]
@@ -19,8 +20,17 @@ bg_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 bg_color = Color(0.156863, 0.156863, 0.156863, 1)
 
 [node name="CodeEditor" type="Panel" node_paths=PackedStringArray("code", "run_btn", "output_label", "error_label")]
-offset_right = 1010.0
-offset_bottom = 594.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -505.0
+offset_top = -297.0
+offset_right = 505.0
+offset_bottom = 297.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_j7nv4")
 theme_override_styles/panel = SubResource("StyleBoxFlat_8s0lf")
 script = ExtResource("1_dt2rk")
@@ -37,10 +47,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Header" type="ColorRect" parent="Layout"]
+[node name="Header" type="ColorRect" parent="Layout" node_paths=PackedStringArray("close_btn", "maximize_btn", "minimize_btn", "main_window")]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+script = ExtResource("3_5gl8k")
+close_btn = NodePath("Buttons/Close")
+maximize_btn = NodePath("Buttons/Maximize")
+minimize_btn = NodePath("Buttons/Minimize")
+main_window = NodePath("../..")
 
 [node name="Buttons" type="HBoxContainer" parent="Layout/Header"]
 layout_mode = 1

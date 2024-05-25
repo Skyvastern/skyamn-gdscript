@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://0aheb7v37rpf"]
+[gd_scene load_steps=4 format=3 uid="uid://0aheb7v37rpf"]
 
 [ext_resource type="Theme" uid="uid://cm58mhk8a3nj6" path="res://main/common/main_theme.tres" id="2_vd6ir"]
 [ext_resource type="PackedScene" uid="uid://bip4l7haflx71" path="res://main/code_editor/code_editor.tscn" id="3_pbipu"]
+[ext_resource type="PackedScene" uid="uid://bhj5v6eyujj2t" path="res://main/code_editor/code_editor_button/code_editor_button.tscn" id="3_pnuyp"]
 
 [node name="Main" type="Node"]
 
@@ -23,16 +24,25 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.45098, 0.588235, 1, 1)
 
-[node name="CodeEditor" parent="UI" instance=ExtResource("3_pbipu")]
+[node name="CodeEditor" parent="UI" node_paths=PackedStringArray("taskbar_btn") instance=ExtResource("3_pbipu")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -505.0
-offset_top = -297.0
-offset_right = 505.0
-offset_bottom = 297.0
-grow_horizontal = 2
-grow_vertical = 2
+taskbar_btn = NodePath("../Taskbar/Code Editor Button")
+
+[node name="Taskbar" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -27.0
+offset_right = 28.0
+offset_bottom = -27.0
+grow_vertical = 0
+alignment = 2
+
+[node name="Code Editor Button" parent="UI/Taskbar" node_paths=PackedStringArray("window", "window_container") instance=ExtResource("3_pnuyp")]
+visible = false
+layout_mode = 2
+window = NodePath("../../CodeEditor")
+window_scene = ExtResource("3_pbipu")
+window_container = NodePath("../..")

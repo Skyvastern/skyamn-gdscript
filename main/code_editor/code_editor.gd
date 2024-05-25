@@ -1,10 +1,14 @@
-extends Node
+extends Control
 class_name CodeEditor
 
+@export_group("UI")
 @export var code: TextEdit
 @export var run_btn: Button
 @export var output_label: Label
 @export var error_label: Label
+
+@export_group("References")
+@export var taskbar_btn: TaskbarButton
 
 
 func _ready() -> void:

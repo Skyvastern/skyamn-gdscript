@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhj5v6eyujj2t"]
+
+[ext_resource type="Texture2D" uid="uid://bk2k0i4cyoyj2" path="res://main/assets/textures/code_editor_icon/code_editor_btn_normal.svg" id="1_oe0ci"]
+[ext_resource type="Texture2D" uid="uid://urejllo4sh5t" path="res://main/assets/textures/code_editor_icon/code_editor_btn_pressed.svg" id="2_h35vi"]
+[ext_resource type="Texture2D" uid="uid://id67p3mf5bhg" path="res://main/assets/textures/code_editor_icon/code_editor_btn_hover.svg" id="3_cujsk"]
+[ext_resource type="Script" path="res://main/common/scripts/taskbar_btn.gd" id="4_o1lit"]
+
+[node name="Code Editor Button" type="TextureButton"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+focus_mode = 0
+texture_normal = ExtResource("1_oe0ci")
+texture_pressed = ExtResource("2_h35vi")
+texture_hover = ExtResource("3_cujsk")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("4_o1lit")
