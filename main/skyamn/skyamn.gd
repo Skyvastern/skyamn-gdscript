@@ -4,6 +4,9 @@ class_name Skyamn
 static var had_error: bool = false
 static var had_runtime_error: bool = false
 
+signal result_log_message
+signal result_runtime_error
+
 
 func _init() -> void:
 	had_error = false
@@ -41,7 +44,7 @@ func _run(source: String) -> void:
 		return
 	
 	var interpreter: Interpreter = Interpreter.new(
-		_on_success,
+		_on_log_message,
 		_on_runtime_error
 	)
 	
@@ -73,10 +76,10 @@ static func substring(value: String, start_index: int, end_index: int) -> String
 	return trimmed_value
 
 
-func _on_success(output: String) -> void:
-	print(output)
+func _on_log_message(message: String) -> void:
+	result_log_message.emit(message)
 
 
 func _on_runtime_error(token: Token, message: String) -> void:
-	push_error("Runtime Error: %s\nAt line [%s]" % [message, token.line])
+	result_runtime_error.emit("Runtime Error: %s\nAt line [%s]" % [message, token.line])
 	had_runtime_error = true

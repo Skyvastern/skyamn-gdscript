@@ -4,8 +4,8 @@ class_name Interpreter
 var globals: SkyEnvironment = SkyEnvironment.new()
 var environment: SkyEnvironment = globals
 
-# emit(output: String)
-signal success
+# emit(message: String)
+signal log_message
 
 # emit(token: Token, message: String)
 signal runtime_error
@@ -13,8 +13,8 @@ signal runtime_error
 var return_value_set: Variant = null
 
 
-func _init(on_success: Callable, on_runtime_error: Callable) -> void:
-	success.connect(on_success)
+func _init(on_log_message: Callable, on_runtime_error: Callable) -> void:
+	log_message.connect(on_log_message)
 	runtime_error.connect(on_runtime_error)
 	
 	globals.define("clock", Clock.new())
@@ -49,7 +49,7 @@ func visit_if_stmt(stmt: If) -> void:
 func visit_sky_print_stmt(stmt: SkyPrint) -> void:
 	var value: Variant = evaluate(stmt.expr)
 	var output: String = stringify(value)
-	emit_success(output)
+	emit_log_message(output)
 
 
 func visit_return_stmt(stmt: Return):
@@ -286,5 +286,5 @@ func emit_runtime_error(token: Token, message: String) -> void:
 	# Instead tried removing this object using free(), but it showed an error
 
 
-func emit_success(output: String) -> void:
-	success.emit(output)
+func emit_log_message(message: String) -> void:
+	log_message.emit(message)
