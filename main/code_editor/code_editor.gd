@@ -9,7 +9,8 @@ class_name CodeEditor
 @export var tabs_container: TabContainer
 
 @export_group("References")
-@export var taskbar_btn: TaskbarButton
+@export var syntax_error_footer_scene: PackedScene
+var syntax_error_footer: SyntaxErrorFooter
 
 
 func _ready() -> void:
@@ -41,6 +42,7 @@ func _on_run_btn_pressed() -> void:
 	
 	var skyamn: Skyamn = Skyamn.new()
 	skyamn.result_log_message.connect(_on_result_log_message)
+	skyamn.result_syntax_error.connect(_on_result_syntax_error)
 	skyamn.result_runtime_error.connect(_on_result_runtime_error)
 	
 	skyamn.run_source(source)
@@ -54,6 +56,17 @@ func _on_result_log_message(message: String) -> void:
 		tabs_container.current_tab = 0
 
 
+func _on_result_syntax_error(syntax_errors: Array[String]) -> void:
+	var error_message: String = syntax_errors[0]
+	syntax_error_footer = syntax_error_footer_scene.instantiate()
+	syntax_error_footer.setup(error_message)
+	
+	code.add_child(syntax_error_footer)
+	
+	# Disable run button
+	run_btn.disabled = true
+
+
 func _on_result_runtime_error(error_message: String) -> void:
 	errors_label.text += error_message + "\n\n"
 	
@@ -62,6 +75,16 @@ func _on_result_runtime_error(error_message: String) -> void:
 
 
 func _on_code_text_changed() -> void:
+	# Run parser to check syntax errors
+	run_btn.disabled = false
+	if is_instance_valid(syntax_error_footer):
+		syntax_error_footer.queue_free()
+	
+	var skyamn: Skyamn = Skyamn.new()
+	skyamn.result_syntax_error.connect(_on_result_syntax_error)
+	skyamn.check_syntax_errors(code.text)
+	
+	# Show line numbers
 	var lines: int = code.get_line_count()
 	
 	for i in range(lines):

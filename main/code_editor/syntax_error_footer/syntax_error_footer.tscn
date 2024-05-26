@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci2n76ihsow54"]
+
+[ext_resource type="Script" path="res://main/code_editor/syntax_error_footer/syntax_error_footer.gd" id="1_sglvf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5egdc"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(1, 0.431373, 0.45098, 1)
+
+[node name="Syntax Error Footer" type="ScrollContainer" node_paths=PackedStringArray("error_message")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_sglvf")
+error_message = NodePath("Error Message")
+
+[node name="Error Message" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("StyleBoxFlat_5egdc")
+text = "Syntax Error"
+vertical_alignment = 1

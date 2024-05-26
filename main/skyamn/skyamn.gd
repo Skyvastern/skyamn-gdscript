@@ -3,14 +3,17 @@ class_name Skyamn
 
 static var had_error: bool = false
 static var had_runtime_error: bool = false
+static var syntax_errors: Array[String] = []
 
 signal result_log_message
+signal result_syntax_error
 signal result_runtime_error
 
 
 func _init() -> void:
 	had_error = false
 	had_runtime_error = false
+	syntax_errors.clear()
 
 
 func start(source: String) -> bool:
@@ -41,6 +44,7 @@ func _run(source: String) -> void:
 	var statements: Array[Stmt] = parser.parse()
 	
 	if had_error:
+		result_syntax_error.emit(syntax_errors)
 		return
 	
 	var interpreter: Interpreter = Interpreter.new(
@@ -49,6 +53,18 @@ func _run(source: String) -> void:
 	)
 	
 	interpreter.interpret(statements)
+
+
+func check_syntax_errors(source: String) -> void:
+	var scanner: Scanner = Scanner.new(source)
+	var tokens: Array[Token] = scanner.scan_tokens()
+	
+	var parser: Parser = Parser.new(tokens)
+	parser.parse()
+	
+	if had_error:
+		result_syntax_error.emit(syntax_errors)
+		return
 
 
 static func error(line: int, message: String) -> void:
@@ -63,7 +79,8 @@ static func error_token(token: Token, message: String) -> void:
 
 
 static func report(line: int, where: String, message: String) -> void:
-	push_error("[line " + str(line) + "] Error" + where + ": " + message)
+	var error_message: String = "[line " + str(line) + "] Error" + where + ": " + message
+	syntax_errors.append(error_message)
 	had_error = true
 
 

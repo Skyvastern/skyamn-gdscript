@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bip4l7haflx71"]
+[gd_scene load_steps=17 format=3 uid="uid://bip4l7haflx71"]
 
 [ext_resource type="Script" path="res://main/code_editor/code_editor.gd" id="1_dt2rk"]
 [ext_resource type="Theme" uid="uid://cm58mhk8a3nj6" path="res://main/common/main_theme.tres" id="1_j7nv4"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ckea6tt45oohv" path="res://main/assets/textures/window_buttons/minimize_btn_pressed.svg" id="2_bjcvu"]
 [ext_resource type="Script" path="res://main/common/scripts/window_header.gd" id="3_5gl8k"]
 [ext_resource type="Texture2D" uid="uid://vfvg1uutmeye" path="res://main/assets/textures/window_buttons/minimize_btn_hover.svg" id="3_h5ixk"]
+[ext_resource type="PackedScene" uid="uid://ci2n76ihsow54" path="res://main/code_editor/syntax_error_footer/syntax_error_footer.tscn" id="3_pghis"]
 [ext_resource type="Texture2D" uid="uid://10w4co1ljtea" path="res://main/assets/textures/window_buttons/maximize_btn_normal.svg" id="4_27yns"]
 [ext_resource type="Texture2D" uid="uid://br0pbxlmrw15" path="res://main/assets/textures/window_buttons/maximize_btn_pressed.svg" id="5_2bwd5"]
 [ext_resource type="Texture2D" uid="uid://gkrog50c0it1" path="res://main/assets/textures/window_buttons/maximize_btn_hover.svg" id="6_d1nym"]
@@ -53,6 +54,7 @@ run_btn = NodePath("Layout/Main/Run Button")
 output_label = NodePath("Layout/Main/Content/Tabs Container/Output/Output Container/Panel/ScrollContainer/Output")
 errors_label = NodePath("Layout/Main/Content/Tabs Container/Errors/Errors Container/Panel/ScrollContainer/Errors")
 tabs_container = NodePath("Layout/Main/Content/Tabs Container")
+syntax_error_footer_scene = ExtResource("3_pghis")
 
 [node name="Layout" type="VBoxContainer" parent="."]
 layout_mode = 1
