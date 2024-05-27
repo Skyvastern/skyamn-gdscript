@@ -13,7 +13,13 @@ func parse() -> Array[Stmt]:
 	var statements: Array[Stmt] = []
 	
 	while not is_at_end():
+		var prev_current: int = current
 		statements.append(declaration())
+		
+		# In some situations, like if only ) is written, then an infinite loop occurs as current is not updated, because token EOF is never reached
+		# Kinda hacky way to resolve this issue
+		if current == prev_current:
+			current += 1
 	
 	return statements
 
