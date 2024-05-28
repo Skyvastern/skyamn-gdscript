@@ -24,8 +24,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.45098, 0.588235, 1, 1)
 
-[node name="CodeEditor" parent="UI" instance=ExtResource("3_pbipu")]
+[node name="CodeEditor" parent="UI" node_paths=PackedStringArray("taskbar_btn") instance=ExtResource("3_pbipu")]
 layout_mode = 1
+taskbar_btn = NodePath("../Taskbar/Code Editor Button")
 
 [node name="Taskbar" type="HBoxContainer" parent="UI"]
 layout_mode = 1

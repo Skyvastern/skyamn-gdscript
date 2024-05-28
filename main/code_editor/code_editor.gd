@@ -9,6 +9,7 @@ class_name CodeEditor
 @export var tabs_container: TabContainer
 
 @export_group("References")
+@export var taskbar_btn: TaskbarButton # Used by window_header.gd
 @export var syntax_error_footer_scene: PackedScene
 var syntax_error_footer: SyntaxErrorFooter
 
