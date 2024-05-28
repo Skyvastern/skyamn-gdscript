@@ -151,38 +151,38 @@ func visit_binary_expr(binary: Binary) -> Variant:
 	
 	# Subtraction
 	if binary.operator.type == Token.TokenType.MINUS:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) - float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) - float(right)
 	
 	# Multiplication
 	if binary.operator.type == Token.TokenType.STAR:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) * float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) * float(right)
 	
 	# Division
 	if binary.operator.type == Token.TokenType.SLASH:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) / float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) / float(right)
 	
 	# Greater
 	if binary.operator.type == Token.TokenType.GREATER:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) > float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) > float(right)
 	
 	# Greater Equal
 	if binary.operator.type == Token.TokenType.GREATER_EQUAL:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) >= float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) >= float(right)
 	
 	# Less
 	if binary.operator.type == Token.TokenType.LESS:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) < float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) < float(right)
 	
 	# Less Equal
 	if binary.operator.type == Token.TokenType.LESS_EQUAL:
-		check_number_binary_operands(binary.operator, left, right)
-		return float(left) <= float(right)
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(left) <= float(right)
 	
 	# Equal To
 	if binary.operator.type == Token.TokenType.EQUAL_EQUAL:
@@ -259,11 +259,12 @@ func check_number_unary_operand(operator: Token, operand: Variant) -> void:
 	emit_runtime_error(operator, "Operand must be a number.")
 
 
-func check_number_binary_operands(operator: Token, left: Variant, right: Variant) -> void:
+func check_number_binary_operands(operator: Token, left: Variant, right: Variant) -> bool:
 	if left is float and right is float:
-		return
+		return true
 	
 	emit_runtime_error(operator, "Operands must be a number.")
+	return false
 
 
 func stringify(variant: Variant) -> String:
