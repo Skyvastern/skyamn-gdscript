@@ -32,10 +32,8 @@ func scan_a_token() -> void:
 			add_token(Token.TokenType.LEFT_PAREN)
 		")":
 			add_token(Token.TokenType.RIGHT_PAREN)
-		"{":
-			add_token(Token.TokenType.LEFT_BRACE)
-		"}":
-			add_token(Token.TokenType.RIGHT_BRACE)
+		"\t":
+			add_token(Token.TokenType.INDENT)
 		".":
 			add_token(Token.TokenType.DOT)
 		",":
@@ -44,8 +42,9 @@ func scan_a_token() -> void:
 			add_token(Token.TokenType.PLUS)
 		"-":
 			add_token(Token.TokenType.MINUS)
-		";":
-			add_token(Token.TokenType.SEMICOLON)
+		"\n":
+			add_token(Token.TokenType.LINE_END)
+			line += 1
 		"*":
 			add_token(Token.TokenType.STAR)
 		"!":
@@ -74,10 +73,8 @@ func scan_a_token() -> void:
 					advance()
 			else:
 				add_token(Token.TokenType.SLASH)
-		" ", "\r", "\t":
+		" ", "\r":
 			pass
-		"\n":
-			line += 1
 		'"':
 			string()
 		_:

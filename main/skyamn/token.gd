@@ -15,13 +15,13 @@ func _init(_type: TokenType, _lexeme: String, _literal: Variant, _line: int) -> 
 
 
 func _to_string() -> String:
-	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + lexeme + "\nLiteral: " + str(literal)
+	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + _get_printable_lexeme() + "\nLiteral: " + str(literal)
 
 
 enum TokenType {
 	# Single character tokens
-	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-	COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+	LEFT_PAREN, RIGHT_PAREN, INDENT, COMMA,
+	DOT, MINUS, PLUS, LINE_END, SLASH, STAR,
 	
 	# One or two characters token
 	BANG, BANG_EQUAL,
@@ -58,3 +58,16 @@ static var keywords: Dictionary = {
 	"var": TokenType.VAR,
 	"while": TokenType.WHILE
 }
+
+
+func _get_printable_lexeme() -> String:
+	var printable: String = lexeme
+	if printable.length() <= 0:
+		return printable
+	
+	if printable[0] == "\n":
+		printable = "\\n"
+	elif printable[0] == "\t":
+		printable = "\\t"
+	
+	return printable

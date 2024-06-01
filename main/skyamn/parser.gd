@@ -50,8 +50,8 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.WHILE]):
 		return while_statement()
 	
-	if match_token_type([Token.TokenType.LEFT_BRACE]):
-		return Block.new(block())
+	#if match_token_type([Token.TokenType.LEFT_BRACE]):
+	#	return Block.new(block())
 	
 	return expression_statement()
 
@@ -62,20 +62,20 @@ func for_statement() -> Stmt:
 	# Get initializer statement
 	var initializer: Stmt
 	
-	if match_token_type([Token.TokenType.SEMICOLON]):
-		initializer = null
-	elif match_token_type([Token.TokenType.VAR]):
-		initializer = var_declaration()
-	else:
-		initializer = expression_statement()
+	#if match_token_type([Token.TokenType.SEMICOLON]):
+		#initializer = null
+	#elif match_token_type([Token.TokenType.VAR]):
+		#initializer = var_declaration()
+	#else:
+		#initializer = expression_statement()
 	
 	# Get conditional expressional
 	var condition: Expr = null
 	
-	if not check(Token.TokenType.SEMICOLON):
-		condition = expression()
+	#if not check(Token.TokenType.SEMICOLON):
+		#condition = expression()
 	
-	consume(Token.TokenType.SEMICOLON, "Expect ';' after loop condition.")
+	#consume(Token.TokenType.SEMICOLON, "Expect ';' after loop condition.")
 	
 	# Get increment expression
 	var increment: Expr = null
@@ -124,7 +124,7 @@ func if_statement() -> Stmt:
 
 func print_statement() -> Stmt:
 	var value: Expr = expression()
-	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	#consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyPrint.new(value)
 
 
@@ -132,10 +132,10 @@ func return_statement() -> Stmt:
 	var keyword: Token = previous()
 	var value: Expr = null
 	
-	if not check(Token.TokenType.SEMICOLON):
-		value = expression()
+	#if not check(Token.TokenType.SEMICOLON):
+		#value = expression()
 	
-	consume(Token.TokenType.SEMICOLON, "Expect ';' after return value.")
+	#consume(Token.TokenType.SEMICOLON, "Expect ';' after return value.")
 	return Return.new(keyword, value)
 
 
@@ -150,17 +150,17 @@ func while_statement() -> Stmt:
 
 func expression_statement() -> Stmt:
 	var expr: Expr = expression()
-	consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	#consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
 	return SkyExpression.new(expr)
 
 
 func block() -> Array[Stmt]:
 	var statements: Array[Stmt] = []
 	
-	while not check(Token.TokenType.RIGHT_BRACE) and not is_at_end():
-		statements.append(declaration())
+	#while not check(Token.TokenType.RIGHT_BRACE) and not is_at_end():
+		#statements.append(declaration())
 	
-	consume(Token.TokenType.RIGHT_BRACE, "Expect '}' after block.")
+	#consume(Token.TokenType.RIGHT_BRACE, "Expect '}' after block.")
 	return statements
 
 
@@ -197,7 +197,7 @@ func function_declaration(kind: String) -> SkyFunction:
 	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after parameters.")
 	
 	# Get function body
-	consume(Token.TokenType.LEFT_BRACE, "Expect '{' before %s body." % kind)
+	#consume(Token.TokenType.LEFT_BRACE, "Expect '{' before %s body." % kind)
 	var body: Array[Stmt] = block()
 	
 	# Create and return the function node
@@ -211,7 +211,7 @@ func var_declaration() -> Stmt:
 	if match_token_type([Token.TokenType.EQUAL]):
 		initializer = expression()
 	
-	consume(Token.TokenType.SEMICOLON, "Expect ';' after variable declaration.")
+	#consume(Token.TokenType.SEMICOLON, "Expect ';' after variable declaration.")
 	return Var.new(token_name, initializer)
 
 
@@ -399,8 +399,8 @@ func synchronize() -> void:
 	advance()
 	
 	while not is_at_end():
-		if previous().type == Token.TokenType.SEMICOLON:
-			return
+		#if previous().type == Token.TokenType.SEMICOLON:
+			#return
 		
 		if peek().type == Token.TokenType.CLASS \
 		or peek().type == Token.TokenType.FUN \

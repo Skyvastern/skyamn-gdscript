@@ -37,8 +37,18 @@ func run_prompt() -> void:
 
 
 func _run(source: String) -> void:
+	source += "\n"
+	
 	var scanner: Scanner = Scanner.new(source)
 	var tokens: Array[Token] = scanner.scan_tokens()
+	for t in tokens:
+		print(str(t) + "\n")
+	
+	if had_error:
+		result_syntax_error.emit(syntax_errors)
+		return
+	
+	return
 	
 	var parser: Parser = Parser.new(tokens)
 	var statements: Array[Stmt] = parser.parse()
