@@ -20,10 +20,10 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 26
 text = "fun add(a, b)
-	return a + b;
+	return a + b
 
-var c = add(1,2);
-print c;"
+var c = add(1,2)
+print c"
 placeholder_text = "fun add(a, b) {
 	return a + b;
 }

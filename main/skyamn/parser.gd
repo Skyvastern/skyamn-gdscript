@@ -3,6 +3,7 @@ class_name Parser
 
 var tokens: Array[Token]
 var current: int = 0
+var indent_level: int = 0
 
 
 func _init(_tokens: Array[Token]) -> void:
@@ -14,7 +15,9 @@ func parse() -> Array[Stmt]:
 	
 	while not is_at_end():
 		var prev_current: int = current
-		statements.append(declaration())
+		
+		if not match_token_type([Token.TokenType.LINE_END]):
+			statements.append(declaration())
 		
 		# In some situations, like if only ) is written, then an infinite loop occurs as current is not updated, because token EOF is never reached
 		# Kinda hacky way to resolve this issue
@@ -50,8 +53,8 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.WHILE]):
 		return while_statement()
 	
-	#if match_token_type([Token.TokenType.LEFT_BRACE]):
-	#	return Block.new(block())
+	if match_token_type([Token.TokenType.INDENT]):
+		return Block.new(block())
 	
 	return expression_statement()
 
@@ -124,7 +127,7 @@ func if_statement() -> Stmt:
 
 func print_statement() -> Stmt:
 	var value: Expr = expression()
-	#consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after value.")
 	return SkyPrint.new(value)
 
 
@@ -132,10 +135,10 @@ func return_statement() -> Stmt:
 	var keyword: Token = previous()
 	var value: Expr = null
 	
-	#if not check(Token.TokenType.SEMICOLON):
-		#value = expression()
+	if not check(Token.TokenType.LINE_END):
+		value = expression()
 	
-	#consume(Token.TokenType.SEMICOLON, "Expect ';' after return value.")
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after return value.")
 	return Return.new(keyword, value)
 
 
@@ -150,17 +153,18 @@ func while_statement() -> Stmt:
 
 func expression_statement() -> Stmt:
 	var expr: Expr = expression()
-	#consume(Token.TokenType.SEMICOLON, "Expect ';' after value.")
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after value.")
 	return SkyExpression.new(expr)
 
 
 func block() -> Array[Stmt]:
 	var statements: Array[Stmt] = []
+	indent_level += 1
 	
-	#while not check(Token.TokenType.RIGHT_BRACE) and not is_at_end():
-		#statements.append(declaration())
+	while not is_at_end() and check_indentation():
+		statements.append(declaration())
 	
-	#consume(Token.TokenType.RIGHT_BRACE, "Expect '}' after block.")
+	indent_level -= 1
 	return statements
 
 
@@ -197,7 +201,7 @@ func function_declaration(kind: String) -> SkyFunction:
 	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after parameters.")
 	
 	# Get function body
-	#consume(Token.TokenType.LEFT_BRACE, "Expect '{' before %s body." % kind)
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after %s signature." % kind)
 	var body: Array[Stmt] = block()
 	
 	# Create and return the function node
@@ -211,7 +215,7 @@ func var_declaration() -> Stmt:
 	if match_token_type([Token.TokenType.EQUAL]):
 		initializer = expression()
 	
-	#consume(Token.TokenType.SEMICOLON, "Expect ';' after variable declaration.")
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after variable declaration.")
 	return Var.new(token_name, initializer)
 
 
@@ -399,8 +403,8 @@ func synchronize() -> void:
 	advance()
 	
 	while not is_at_end():
-		#if previous().type == Token.TokenType.SEMICOLON:
-			#return
+		if previous().type == Token.TokenType.LINE_END:
+			return
 		
 		if peek().type == Token.TokenType.CLASS \
 		or peek().type == Token.TokenType.FUN \
@@ -451,3 +455,15 @@ func peek() -> Token:
 # Returns the recently consumed token
 func previous() -> Token:
 	return tokens[current - 1]
+
+
+# Checks indentation based on indent level
+func check_indentation() -> bool:
+	for i in range(indent_level):
+		if tokens[current + i].type != Token.TokenType.INDENT:
+			return false
+	
+	for i in range(indent_level):
+		advance()
+	
+	return true
