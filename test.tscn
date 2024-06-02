@@ -19,11 +19,13 @@ theme = ExtResource("2_pi38q")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 26
-text = "fun add(a, b)
-	return a + b
+text = "fun show(age)
+	if age >= 18
+		print \"You're good to go.\"
+	else
+		print \"You cannot vote.\"
 
-var c = add(1,2)
-print c"
+show(26)"
 placeholder_text = "fun add(a, b) {
 	return a + b;
 }

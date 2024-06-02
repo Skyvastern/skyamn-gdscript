@@ -2,11 +2,11 @@ extends Stmt
 class_name If
 
 var condition: Expr
-var then_branch: Stmt
-var else_branch: Stmt
+var then_branch: Array[Stmt]
+var else_branch: Array[Stmt]
 
 
-func _init(_condition: Expr, _then_branch: Stmt, _else_branch: Stmt) -> void:
+func _init(_condition: Expr, _then_branch: Array[Stmt], _else_branch: Array[Stmt]) -> void:
 	condition = _condition
 	then_branch = _then_branch
 	else_branch = _else_branch

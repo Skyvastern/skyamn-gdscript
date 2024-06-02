@@ -53,7 +53,7 @@ func statement() -> Stmt:
 	if match_token_type([Token.TokenType.WHILE]):
 		return while_statement()
 	
-	if match_token_type([Token.TokenType.INDENT]):
+	if peek().type == Token.TokenType.INDENT:
 		return Block.new(block())
 	
 	return expression_statement()
@@ -112,15 +112,15 @@ func for_statement() -> Stmt:
 
 
 func if_statement() -> Stmt:
-	consume(Token.TokenType.LEFT_PAREN, "Expect '(' after if.")
 	var condition: Expr = expression()
-	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after if condition.")
 	
-	var then_branch: Stmt = statement()
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after if condition.")
+	var then_branch: Array[Stmt] = block()
 	
-	var else_branch: Stmt = null
-	if match_token_type([Token.TokenType.ELSE]):
-		else_branch = statement()
+	var else_branch: Array[Stmt] = []
+	if check_indentation() and match_token_type([Token.TokenType.ELSE]):
+		consume(Token.TokenType.LINE_END, "Expect 'line end' after else condition.")
+		else_branch = block()
 	
 	return If.new(condition, then_branch, else_branch)
 
