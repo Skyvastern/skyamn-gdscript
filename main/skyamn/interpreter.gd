@@ -40,10 +40,15 @@ func visit_sky_function_stmt(stmt: SkyFunction):
 
 
 func visit_if_stmt(stmt: If) -> void:
-	if is_truthy(evaluate(stmt.condition)):
-		execute_block(stmt.then_branch, SkyEnvironment.new(environment))
-	elif not stmt.else_branch.is_empty():
-		execute_block(stmt.else_branch, SkyEnvironment.new(environment))
+	for branch in stmt.conditional_branches:
+		var condition: Expr = branch["condition"]
+		if condition != null:
+			if is_truthy(evaluate(condition)):
+				execute_block(branch["branch"], SkyEnvironment.new(environment))
+				break
+		else:
+			execute_block(branch["branch"], SkyEnvironment.new(environment))
+			break
 
 
 func visit_sky_print_stmt(stmt: SkyPrint) -> void:

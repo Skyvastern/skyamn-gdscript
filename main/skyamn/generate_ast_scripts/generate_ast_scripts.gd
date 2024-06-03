@@ -36,7 +36,7 @@ func generate() -> void:
 			"return = keyword: Token, value: Expr",
 			"var = token_name: Token, initializer: Expr",
 			"block = statements: Array[Stmt]",
-			"if = condition: Expr, then_branch: Array[Stmt], else_branch: Array[Stmt]",
+			"if = conditional_branches: Array[Dictionary]",
 			"while = condition: Expr, body: Stmt"
 		]
 	)

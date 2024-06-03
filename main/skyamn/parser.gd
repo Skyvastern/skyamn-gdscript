@@ -112,17 +112,46 @@ func for_statement() -> Stmt:
 
 
 func if_statement() -> Stmt:
+	var conditional_branches: Array[Dictionary] = []
+	
+	# if branch
 	var condition: Expr = expression()
-	
 	consume(Token.TokenType.LINE_END, "Expect 'line end' after if condition.")
-	var then_branch: Array[Stmt] = block()
+	var if_branch: Array[Stmt] = block()
 	
+	conditional_branches.append({
+		"condition": condition,
+		"branch": if_branch
+	})
+	
+	# elif branches
+	while true:
+		var elif_branch: Array[Stmt] = []
+		if check_indentation_and_token(Token.TokenType.ELIF):
+			var elif_condition: Expr = expression()
+			consume(Token.TokenType.LINE_END, "Expect 'line end' after elif condition.")
+			elif_branch = block()
+			
+			conditional_branches.append({
+				"condition": elif_condition,
+				"branch": elif_branch
+			})
+		else:
+			break
+	
+	# else branch
 	var else_branch: Array[Stmt] = []
-	if check_indentation() and match_token_type([Token.TokenType.ELSE]):
+	if check_indentation_and_token(Token.TokenType.ELSE):
 		consume(Token.TokenType.LINE_END, "Expect 'line end' after else condition.")
 		else_branch = block()
+		
+		conditional_branches.append({
+			"condition": null,
+			"branch": else_branch
+		})
 	
-	return If.new(condition, then_branch, else_branch)
+	# Return the final If statement
+	return If.new(conditional_branches)
 
 
 func print_statement() -> Stmt:
@@ -464,6 +493,20 @@ func check_indentation() -> bool:
 			return false
 	
 	for i in range(indent_level):
+		advance()
+	
+	return true
+
+
+func check_indentation_and_token(token_type: Token.TokenType) -> bool:
+	for i in range(indent_level):
+		if tokens[current + i].type != Token.TokenType.INDENT:
+			return false
+	
+	if tokens[current + indent_level].type != token_type:
+		return false
+	
+	for i in range(indent_level + 1):
 		advance()
 	
 	return true
