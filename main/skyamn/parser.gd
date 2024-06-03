@@ -100,7 +100,7 @@ func for_statement() -> Stmt:
 	if condition == null:
 		condition = Literal.new(true)
 	
-	body = While.new(condition, body)
+	#body = While.new(condition, body)
 	
 	if initializer != null:
 		body = Block.new([
@@ -172,10 +172,9 @@ func return_statement() -> Stmt:
 
 
 func while_statement() -> Stmt:
-	consume(Token.TokenType.LEFT_PAREN, "Expect '(' after 'while'.")
 	var condition: Expr = expression()
-	consume(Token.TokenType.RIGHT_PAREN, "Expect ')' after condition.")
-	var body: Stmt = statement()
+	consume(Token.TokenType.LINE_END, "Expect 'line end' after while condition.")
+	var body: Array[Stmt] = block()
 	
 	return While.new(condition, body)
 

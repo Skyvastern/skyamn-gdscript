@@ -2,10 +2,10 @@ extends Stmt
 class_name While
 
 var condition: Expr
-var body: Stmt
+var body: Array[Stmt]
 
 
-func _init(_condition: Expr, _body: Stmt) -> void:
+func _init(_condition: Expr, _body: Array[Stmt]) -> void:
 	condition = _condition
 	body = _body
 

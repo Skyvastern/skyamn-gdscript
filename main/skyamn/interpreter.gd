@@ -67,7 +67,7 @@ func visit_return_stmt(stmt: Return):
 
 func visit_while_stmt(stmt: While) -> void:
 	while return_value_set == null and is_truthy(evaluate(stmt.condition)):
-		execute(stmt.body)
+		execute_block(stmt.body, SkyEnvironment.new(environment))
 
 
 func visit_block_stmt(block: Block) -> void:

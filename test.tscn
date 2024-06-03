@@ -19,19 +19,11 @@ theme = ExtResource("2_pi38q")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 26
-text = "fun show(option)
-	if option == \"a\"
-		print \"Excellent!\"
-	elif option == \"b\"
-		print \"Nice\"
-	elif option == \"c\"
-		print \"Okay\"
-	elif option == \"d\"
-		print \"Hmm\"
-	else
-		print \"...\"
+text = "var a = 0
 
-show(\"a\")"
+while a < 5
+	print a
+	a = a + 1"
 placeholder_text = "fun add(a, b) {
 	return a + b;
 }
