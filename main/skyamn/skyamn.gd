@@ -79,7 +79,7 @@ static func error_token(token: Token, message: String) -> void:
 	if token.type == Token.TokenType.EOF:
 		report(token.line, " at end", message)
 	else:
-		report(token.line, " at '" + token.lexeme + "'", message)
+		report(token.line, " at '" + Token.get_printable_lexeme(token.lexeme) + "'", message)
 
 
 static func report(line: int, where: String, message: String) -> void:

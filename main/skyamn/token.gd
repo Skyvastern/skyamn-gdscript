@@ -15,7 +15,7 @@ func _init(_type: TokenType, _lexeme: String, _literal: Variant, _line: int) -> 
 
 
 func _to_string() -> String:
-	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + _get_printable_lexeme() + "\nLiteral: " + str(literal)
+	return "Type: " + TokenType.keys()[type] + "\nLexeme: " + Token.get_printable_lexeme(lexeme) + "\nLiteral: " + str(literal)
 
 
 enum TokenType {
@@ -60,8 +60,8 @@ static var keywords: Dictionary = {
 }
 
 
-func _get_printable_lexeme() -> String:
-	var printable: String = lexeme
+static func get_printable_lexeme(_lexeme: String) -> String:
+	var printable: String = _lexeme
 	if printable.length() <= 0:
 		return printable
 	
