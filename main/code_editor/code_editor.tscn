@@ -23,6 +23,7 @@ symbol_color = Color(0.686275, 0.784314, 1, 1)
 function_color = Color(0.784314, 0.882353, 1, 1)
 member_variable_color = Color(1, 0.960784, 0.686275, 1)
 keyword_colors = {
+"elif": Color(1, 0.686275, 0.784314, 1),
 "else": Color(1, 0.686275, 0.784314, 1),
 "if": Color(1, 0.686275, 0.784314, 1),
 "print": Color(0.784314, 0.882353, 1, 1),
