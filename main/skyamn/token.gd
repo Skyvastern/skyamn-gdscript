@@ -33,7 +33,7 @@ enum TokenType {
 	IDENTIFIER, STRING, NUMBER,
 	
 	# Keywords
-	AND, CLASS, ELIF, ELSE, FALSE, FUN, FOR, IF, NULL, OR,
+	AND, CLASS, ELIF, ELSE, FALSE, FUN, IF, NULL, OR,
 	PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
 	
 	EOF
@@ -47,7 +47,6 @@ static var keywords: Dictionary = {
 	"else": TokenType.ELSE,
 	"false": TokenType.FALSE,
 	"fun": TokenType.FUN,
-	"for": TokenType.FOR,
 	"if": TokenType.IF,
 	"null": TokenType.NULL,
 	"or": TokenType.OR,
