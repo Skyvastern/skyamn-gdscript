@@ -58,6 +58,8 @@ func _run(source: String) -> void:
 
 
 func check_syntax_errors(source: String) -> void:
+	source += "\n"
+	
 	var scanner: Scanner = Scanner.new(source)
 	var tokens: Array[Token] = scanner.scan_tokens()
 	
