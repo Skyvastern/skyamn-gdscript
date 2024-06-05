@@ -135,6 +135,9 @@ func block() -> Array[Stmt]:
 	indent_level += 1
 	
 	while not is_at_end() and check_indentation():
+		if peek().type == Token.TokenType.LINE_END:
+			advance()
+		
 		statements.append(declaration())
 	
 	indent_level -= 1
