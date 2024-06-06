@@ -21,7 +21,7 @@ func _to_string() -> String:
 enum TokenType {
 	# Single character tokens
 	LEFT_PAREN, RIGHT_PAREN, INDENT, COMMA,
-	DOT, MINUS, PLUS, LINE_END, SLASH, STAR,
+	DOT, MINUS, PLUS, LINE_END, SLASH, STAR, PERCENT,
 	
 	# One or two characters token
 	BANG, BANG_EQUAL,

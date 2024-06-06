@@ -287,7 +287,8 @@ func factor() -> Expr:
 	
 	while match_token_type([
 		Token.TokenType.SLASH,
-		Token.TokenType.STAR
+		Token.TokenType.STAR,
+		Token.TokenType.PERCENT
 	]):
 		var operator: Token = previous()
 		var right: Expr = unary()

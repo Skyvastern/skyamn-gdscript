@@ -47,6 +47,8 @@ func scan_a_token() -> void:
 			line += 1
 		"*":
 			add_token(Token.TokenType.STAR)
+		"%":
+			add_token(Token.TokenType.PERCENT)
 		"!":
 			if match_char("="):
 				add_token(Token.TokenType.BANG_EQUAL)
