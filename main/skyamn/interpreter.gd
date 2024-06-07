@@ -18,6 +18,22 @@ func _init(on_log_message: Callable, on_runtime_error: Callable) -> void:
 	runtime_error.connect(on_runtime_error)
 	
 	globals.define("clock", Clock.new())
+	globals.define("abs", MathAbs.new())
+	globals.define("acos", MathACos.new())
+	globals.define("acosh", MathACosH.new())
+	globals.define("asin", MathASin.new())
+	globals.define("asinh", MathASinH.new())
+	globals.define("atan", MathATan.new())
+	globals.define("atan2", MathATan2.new())
+	globals.define("atanh", MathATanH.new())
+	globals.define("cos", MathCos.new())
+	globals.define("deg_to_rad", MathDegToRad.new())
+	globals.define("power", MathPower.new())
+	globals.define("rad_to_deg", MathRadToDeg.new())
+	globals.define("random", MathRandom.new())
+	globals.define("sin", MathSin.new())
+	globals.define("sqrt", MathSqrt.new())
+	globals.define("tan", MathTan.new())
 
 
 func interpret(statements: Array[Stmt]) -> void:
