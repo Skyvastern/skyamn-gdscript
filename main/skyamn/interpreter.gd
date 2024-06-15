@@ -165,10 +165,16 @@ func visit_binary_expr(binary: Binary) -> Variant:
 		if left is float and right is float:
 			return float(left) + float(right)
 		
-		if left is String and right is String:
-			return String(left) + String(right)
+		if not left is String:
+			left = stringify(left)
 		
-		emit_runtime_error(binary.operator, "Operands must be two numbers or two strings.")
+		if not right is String:
+			right = stringify(right)
+		
+		if left is String and right is String:
+			return left + right
+		
+		emit_runtime_error(binary.operator, "Invalid operands with '+'")
 	
 	# Subtraction
 	if binary.operator.type == Token.TokenType.MINUS:
