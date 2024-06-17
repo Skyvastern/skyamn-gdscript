@@ -69,10 +69,12 @@ func scan_a_token() -> void:
 				add_token(Token.TokenType.GREATER_EQUAL)
 			else:
 				add_token(Token.TokenType.GREATER)
+		"#":
+			while peek() != "\n" and not is_at_end():
+				advance()
 		"/":
 			if match_char("/"):
-				while peek() != "\n" and not is_at_end():
-					advance()
+				add_token(Token.TokenType.SLASH_SLASH)
 			else:
 				add_token(Token.TokenType.SLASH)
 		" ", "\r":

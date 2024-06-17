@@ -191,10 +191,15 @@ func visit_binary_expr(binary: Binary) -> Variant:
 		if check_number_binary_operands(binary.operator, left, right):
 			return float(left) / float(right)
 	
+	# Integer Division
+	if binary.operator.type == Token.TokenType.SLASH_SLASH:
+		if check_number_binary_operands(binary.operator, left, right):
+			return float(int(left/right))
+	
 	# Modulus
 	if binary.operator.type == Token.TokenType.PERCENT:
 		if check_number_binary_operands(binary.operator, left, right):
-			return int(left) % int(right)
+			return float(int(left) % int(right))
 	
 	# Greater
 	if binary.operator.type == Token.TokenType.GREATER:

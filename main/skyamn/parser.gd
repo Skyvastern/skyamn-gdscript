@@ -287,6 +287,7 @@ func factor() -> Expr:
 	
 	while match_token_type([
 		Token.TokenType.SLASH,
+		Token.TokenType.SLASH_SLASH,
 		Token.TokenType.STAR,
 		Token.TokenType.PERCENT
 	]):
