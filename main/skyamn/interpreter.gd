@@ -129,7 +129,7 @@ func visit_unary_expr(unary: Unary) -> Variant:
 		return -float(right)
 	
 	elif unary.operator.type == Token.TokenType.BANG:
-		check_number_unary_operand(unary.operator, right)
+		check_boolean_unary_operand(unary.operator, right)
 		return not is_truthy(right)
 	
 	return null
@@ -287,6 +287,13 @@ func is_equal(a: Variant, b: Variant) -> bool:
 		return false
 	
 	return a == b
+
+
+func check_boolean_unary_operand(operator: Token, operand: Variant) -> void:
+	if operand is bool:
+		return
+	
+	emit_runtime_error(operator, "Operand must be a boolean.")
 
 
 func check_number_unary_operand(operator: Token, operand: Variant) -> void:
